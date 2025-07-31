@@ -1,0 +1,52 @@
+<ion-app>
+  <ion-content class="ion-padding">
+    <form
+      class="form-container"
+      (submit)="
+        registerHistorian(historianName, historianInstitution);
+        $event.preventDefault()
+      "
+    >
+      <ion-button expand="block" (click)="connectMetaMask()" type="button">
+        {{ account ? "Connected: " + account : "Connect MetaMask" }}
+      </ion-button>
+
+      <ion-item>
+        <ion-label position="floating">Name</ion-label>
+        <ion-input
+          [(ngModel)]="historianName"
+          name="name"
+          [disabled]="!account || isRegistered"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Institution</ion-label>
+        <ion-input
+          [(ngModel)]="historianInstitution"
+          name="institution"
+          [disabled]="!account || isRegistered"
+        ></ion-input>
+      </ion-item>
+
+      <ion-button
+        expand="block"
+        type="submit"
+        [disabled]="!account || isRegistered"
+        style="margin-top: 12px"
+      >
+        {{ isRegistered ? "Already Registered" : "Register as Historian" }}
+      </ion-button>
+
+      <ion-button
+        expand="block"
+        type="button"
+        (click)="getHistorianInfo()"
+        [disabled]="!account"
+        style="margin-top: 12px"
+      >
+        Get My Info
+      </ion-button>
+    </form>
+  </ion-content>
+</ion-app>

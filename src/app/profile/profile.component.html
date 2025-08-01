@@ -1,6 +1,10 @@
 <ion-app>
   <ion-content class="ion-padding">
-    @if (!showForm) {
+    @for (user of users; track user.user_id) {
+    <standalone-user [user]="user"></standalone-user>
+    } @empty {
+    <p>No users available.</p>
+    } @if (!showForm) {
     <ion-button
       expand="block"
       type="button"
@@ -57,11 +61,15 @@
       >
         Get My Info
       </ion-button>
+      <ion-button
+        expand="block"
+        type="button"
+        (click)="showForm = !showForm"
+        style="margin-bottom: 16px"
+      >
+        Close Form
+      </ion-button>
     </form>
-    } @for (user of users; track user.user_id) {
-    <standalone-user [user]="user"></standalone-user>
-    } @empty {
-    <p>No users available.</p>
     }
   </ion-content>
 </ion-app>

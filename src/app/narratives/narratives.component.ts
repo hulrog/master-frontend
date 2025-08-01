@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { FactComponent } from '../fact/fact.component';
+import { BlurTextDirective } from '../directives/blur.directive';
 
 @Component({
   selector: 'app-narratives',
   templateUrl: './narratives.component.html',
   styleUrls: ['./narratives.component.scss'],
   standalone: true,
-  imports: [IonicModule, FormsModule, FactComponent],
+  imports: [IonicModule, FormsModule, FactComponent, BlurTextDirective],
 })
 export class NarrativesComponent implements OnInit {
   facts: any[] = [];

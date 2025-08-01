@@ -19,8 +19,12 @@ export class FactsComponent implements OnInit {
     text: '',
     source: '',
     user_id: 2, // Zakucan ID
-    topic_id: 2, // Zakucan ID
+    topic_id: '',
   };
+
+  topicSearch = '';
+  topics: any[] = [];
+  selectedTopic: any = null;
 
   constructor() {}
 
@@ -40,7 +44,45 @@ export class FactsComponent implements OnInit {
     }
   }
 
+  // Search topics by query
+  async searchTopics(query: string) {
+    if (!query) {
+      this.topics = [];
+      return;
+    }
+    try {
+      const response = await fetch(
+        `${this.baseURL}/api/getAllTopicsContainingLetters/${encodeURIComponent(
+          query
+        )}`
+      );
+      const data = await response.json();
+      this.topics = data.topics || [];
+    } catch (error) {
+      console.error('Error searching topics:', error);
+      this.topics = [];
+    }
+  }
+
+  selectTopic(topic: any) {
+    this.selectedTopic = topic;
+    this.newFact.topic_id = topic.topic_id;
+    this.topicSearch = topic.name;
+    this.topics = [];
+  }
+
+  handleTopicInputClick() {
+    if (this.selectedTopic) {
+      this.selectedTopic = null;
+      this.topicSearch = '';
+    }
+  }
+
   async submitFact() {
+    if (!this.selectedTopic) {
+      alert('Please select a topic.');
+      return;
+    }
     try {
       const response = await fetch(`${this.baseURL}/api/createFact`, {
         method: 'POST',
@@ -50,6 +92,8 @@ export class FactsComponent implements OnInit {
       if (response.ok) {
         this.newFact.text = '';
         this.newFact.source = '';
+        this.selectedTopic = null;
+        this.topicSearch = '';
         this.selectedTab = 'list';
         await this.loadFacts();
       } else {

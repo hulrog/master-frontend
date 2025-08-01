@@ -9,7 +9,14 @@ import { HighlightDirective } from '../directives/highlight.directive';
   standalone: true,
   imports: [CommonModule, IonicModule, DateFormatPipe, HighlightDirective],
   templateUrl: './user.component.html',
+  styleUrls: ['./user.component.scss'],
 })
 export class UserComponent {
   @Input() user: any;
+
+  expandedUser: boolean | null = false;
+
+  toggleDetails() {
+    this.expandedUser = !this.expandedUser;
+  }
 }

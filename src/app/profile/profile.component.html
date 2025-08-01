@@ -1,10 +1,12 @@
 <ion-app>
   <ion-content class="ion-padding">
-    @for (user of users; track user.user_id) {
-    <standalone-user [user]="user"></standalone-user>
-    } @empty {
-    <p>No users available.</p>
-    } @if (!showForm) {
+    <ion-list class="horizontal-list">
+      @for (user of users; track user.user_id) {
+      <standalone-user [user]="user"></standalone-user>
+      } @empty {
+      <p>No users available.</p>
+      } </ion-list
+    >@if (!showForm) {
     <ion-button
       expand="block"
       type="button"
@@ -22,7 +24,7 @@
       "
     >
       <ion-button expand="block" (click)="connectMetaMask()" type="button">
-        {{ account ? "Connected: " + account : "Connect MetaMask" }}
+        {{ account ? "Connected!" : "Connect MetaMask" }}
       </ion-button>
 
       <ion-item>
@@ -70,6 +72,35 @@
         Close Form
       </ion-button>
     </form>
-    }
+    @if (isRegistered && account) {
+    <ion-card style="margin-top: 24px">
+      <ion-card-header>
+        <ion-card-title>Historian Tools</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <form (submit)="$event.preventDefault(); createNewTopic()">
+          <ion-item>
+            <ion-label position="floating">Name</ion-label>
+            <ion-input
+              [(ngModel)]="newTopic.name"
+              name="name"
+              required
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Area</ion-label>
+            <ion-textarea
+              [(ngModel)]="newTopic.area_name"
+              name="area_name"
+              required
+            ></ion-textarea>
+          </ion-item>
+          <ion-button expand="block" type="submit" style="margin-top: 20px"
+            >Submit Fact</ion-button
+          >
+        </form>
+      </ion-card-content>
+    </ion-card>
+    } }
   </ion-content>
 </ion-app>

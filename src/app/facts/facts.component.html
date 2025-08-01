@@ -27,6 +27,27 @@
           required
         ></ion-textarea>
       </ion-item>
+      <ion-item>
+        <ion-label position="floating">Topic</ion-label>
+        <ion-input
+          (click)="handleTopicInputClick()"
+          [(ngModel)]="topicSearch"
+          [readonly]="selectedTopic"
+          name="topicSearch"
+          (ionInput)="searchTopics(($event.target.value ?? '').toString())"
+          placeholder="Search topic..."
+          required
+        ></ion-input>
+      </ion-item>
+      @if (topics.length && !selectedTopic) {
+      <ion-list>
+        @for (topic of topics; track topic.topic_id) {
+        <ion-item button (click)="selectTopic(topic)">
+          {{ topic.name }}
+        </ion-item>
+        }
+      </ion-list>
+      }
       <ion-button expand="block" type="submit" style="margin-top: 20px"
         >Submit Fact</ion-button
       >

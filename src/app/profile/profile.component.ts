@@ -61,6 +61,10 @@ export class ProfileComponent implements OnInit {
   ];
   contractAddress = '0x3295C4926226F7002AAd4461a55Cd4E82738816D';
   isRegistered: boolean = false;
+  newTopic = {
+    name: '',
+    area_name: '',
+  };
   constructor() {}
 
   ngOnInit(): void {
@@ -146,6 +150,26 @@ export class ProfileComponent implements OnInit {
     } catch (err) {
       console.error(err);
       alert('You are not registered or an error occurred.');
+    }
+  }
+
+  async createNewTopic() {
+    console.log('Creating new topic:', this.newTopic);
+    try {
+      const response = await fetch(`${this.baseURL}/api/createTopic`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(this.newTopic),
+      });
+      if (response.ok) {
+        this.newTopic.name = '';
+        this.newTopic.area_name = '';
+      } else {
+        alert('Failed to create topic');
+      }
+    } catch (error) {
+      console.error('Submit error:', error);
+      alert('Error submitting topic');
     }
   }
 }

@@ -20,9 +20,11 @@ ion-button {
   margin-top: 6px;
 }
 
-// Veći ekrani
-@media (min-width: 768px) {
-  ion-content {
-    width: 50%;
-  }
+.horizontal-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 16px;
+  padding: 20px;
 }

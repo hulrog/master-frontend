@@ -1,4 +1,3 @@
-// blur-text.directive.ts
 import { Directive, HostBinding, HostListener } from '@angular/core';
 
 @Directive({

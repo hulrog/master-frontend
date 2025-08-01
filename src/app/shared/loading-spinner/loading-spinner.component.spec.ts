@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { NarrativesComponent } from './narratives.component';
+import { LoadingSpinnerComponent } from './loading-spinner.component';
 
-describe('NarrativesComponent', () => {
-  let component: NarrativesComponent;
-  let fixture: ComponentFixture<NarrativesComponent>;
+describe('LoadingSpinnerComponent', () => {
+  let component: LoadingSpinnerComponent;
+  let fixture: ComponentFixture<LoadingSpinnerComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ NarrativesComponent ],
+      declarations: [ LoadingSpinnerComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(NarrativesComponent);
+    fixture = TestBed.createComponent(LoadingSpinnerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { FactComponent } from '../fact/fact.component';
 import { FormsModule } from '@angular/forms';
+import { LoadingSpinnerComponent } from '../shared/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-facts',
   templateUrl: './facts.component.html',
   styleUrls: ['./facts.component.scss'],
   standalone: true,
-  imports: [IonicModule, FactComponent, FormsModule],
+  imports: [IonicModule, FactComponent, FormsModule, LoadingSpinnerComponent],
 })
 export class FactsComponent implements OnInit {
   facts: any[] = [];
@@ -26,6 +27,8 @@ export class FactsComponent implements OnInit {
   topics: any[] = [];
   selectedTopic: any = null;
 
+  loading = true;
+
   constructor() {}
 
   ngOnInit() {
@@ -36,6 +39,7 @@ export class FactsComponent implements OnInit {
     try {
       const response = await fetch(`${this.baseURL}/api/getAllFacts`);
       const data = await response.json();
+      this.loading = false;
       this.facts = (data.facts || []).sort(
         (a: any, b: any) => Number(b.fact_id) - Number(a.fact_id)
       );

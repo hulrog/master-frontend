@@ -1,12 +1,16 @@
 <ion-app>
   <ion-content class="ion-padding">
+    @if (loading) {
+    <app-loading-spinner message="Loading facts..."></app-loading-spinner>\ }
+    @else {
     <ion-list class="horizontal-list">
       @for (user of users; track user.user_id) {
       <standalone-user [user]="user"></standalone-user>
       } @empty {
       <p>No users available.</p>
-      } </ion-list
-    >@if (!showForm) {
+      }
+    </ion-list>
+    } @if (!showForm) {
     <ion-button
       expand="block"
       type="button"

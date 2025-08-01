@@ -4,13 +4,14 @@ import { IonicModule } from '@ionic/angular';
 
 import { FormsModule } from '@angular/forms';
 import { UserComponent } from '../user/user.component';
+import { LoadingSpinnerComponent } from '../shared/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
   standalone: true,
-  imports: [FormsModule, UserComponent, IonicModule],
+  imports: [FormsModule, UserComponent, IonicModule, LoadingSpinnerComponent],
 })
 export class ProfileComponent implements OnInit {
   baseURL = 'http://localhost:8000';
@@ -65,6 +66,7 @@ export class ProfileComponent implements OnInit {
     name: '',
     area_name: '',
   };
+  loading = true;
   constructor() {}
 
   ngOnInit(): void {
@@ -75,6 +77,7 @@ export class ProfileComponent implements OnInit {
     try {
       const response = await fetch(`${this.baseURL}/api/getAllUsers`);
       const data = await response.json();
+      this.loading = false;
       this.users = (data.users || []).sort(
         (a: any, b: any) => Number(b.user_id) - Number(a.user_id)
       );

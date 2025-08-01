@@ -7,7 +7,9 @@
       </ion-segment>
     </ion-toolbar>
   </ion-header>
-
+  @if (loading) {
+  <app-loading-spinner message="Loading facts..."></app-loading-spinner>
+  } @else {
   <ion-content>
     @if (selectedTab === 'list') { @for (fact of facts; track fact.fact_id) {
     <standalone-fact [fact]="fact"></standalone-fact>
@@ -54,4 +56,5 @@
     </form>
     }
   </ion-content>
+  }
 </ion-app>

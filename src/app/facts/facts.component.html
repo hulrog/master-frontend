@@ -1,7 +1,36 @@
 <ion-app>
-  @for (fact of facts; track fact.fact_id) {
-  <standalone-fact [fact]="fact"></standalone-fact>
-  } @empty {
-  <p>No facts available.</p>
-  }
+  <ion-header>
+    <ion-toolbar>
+      <ion-segment [(ngModel)]="selectedTab" color="primary">
+        <ion-segment-button value="list">All Facts</ion-segment-button>
+        <ion-segment-button value="contribute">Contribute</ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    @if (selectedTab === 'list') { @for (fact of facts; track fact.fact_id) {
+    <standalone-fact [fact]="fact"></standalone-fact>
+    } @empty {
+    <p>No facts available.</p>
+    } } @if (selectedTab === 'contribute') {
+    <form (submit)="$event.preventDefault(); submitFact()">
+      <ion-item>
+        <ion-label position="floating">Text</ion-label>
+        <ion-input [(ngModel)]="newFact.text" name="text" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Source</ion-label>
+        <ion-textarea
+          [(ngModel)]="newFact.source"
+          name="source"
+          required
+        ></ion-textarea>
+      </ion-item>
+      <ion-button expand="block" type="submit" style="margin-top: 20px"
+        >Submit Fact</ion-button
+      >
+    </form>
+    }
+  </ion-content>
 </ion-app>

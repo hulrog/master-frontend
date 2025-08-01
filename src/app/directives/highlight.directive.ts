@@ -17,7 +17,7 @@ export class HighlightDirective {
     this.renderer.setStyle(
       this.el.nativeElement,
       'background-color',
-      '#f0f8ff'
+      'rgba(var(--ion-color-primary-rgb), 0.2)'
     );
     this.renderer.setStyle(this.el.nativeElement, 'padding-top', '2%');
     this.renderer.setStyle(this.el.nativeElement, 'padding-bottom', '2%');

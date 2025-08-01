@@ -1,0 +1,10 @@
+<ion-card appHighlight>
+  <ion-card-header>
+    <ion-card-title>{{ user.name }}</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <p>{{ user.date_joined | dateFormat }}</p>
+
+    <p><strong> E-mail:</strong> {{ user.email }}</p>
+  </ion-card-content>
+</ion-card>

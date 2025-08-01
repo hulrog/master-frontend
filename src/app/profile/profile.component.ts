@@ -1,31 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import Web3 from 'web3';
-import {
-  IonApp,
-  IonButton,
-  IonInput,
-  IonLabel,
-  IonItem,
-  IonContent,
-} from '@ionic/angular/standalone';
+import { IonicModule } from '@ionic/angular';
+
 import { FormsModule } from '@angular/forms';
+import { UserComponent } from '../user/user.component';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
   standalone: true,
-  imports: [
-    IonApp,
-    IonButton,
-    IonInput,
-    FormsModule,
-    IonLabel,
-    IonItem,
-    IonContent,
-  ],
+  imports: [FormsModule, UserComponent, IonicModule],
 })
 export class ProfileComponent implements OnInit {
+  baseURL = 'http://localhost:8000';
+  users: any[] = [];
   showForm: boolean = false;
   web3: Web3 | null = null;
   account: string | null = null;
@@ -74,7 +63,21 @@ export class ProfileComponent implements OnInit {
   isRegistered: boolean = false;
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    this.loadUsers();
+  }
+
+  async loadUsers() {
+    try {
+      const response = await fetch(`${this.baseURL}/api/getAllUsers`);
+      const data = await response.json();
+      this.users = (data.users || []).sort(
+        (a: any, b: any) => Number(b.user_id) - Number(a.user_id)
+      );
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  }
 
   async connectMetaMask() {
     if ((window as any).ethereum) {

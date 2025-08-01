@@ -58,6 +58,10 @@
         Get My Info
       </ion-button>
     </form>
+    } @for (user of users; track user.user_id) {
+    <standalone-user [user]="user"></standalone-user>
+    } @empty {
+    <p>No users available.</p>
     }
   </ion-content>
 </ion-app>

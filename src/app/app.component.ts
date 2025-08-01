@@ -35,6 +35,8 @@ import {
   personSharp,
   homeOutline,
   homeSharp,
+  bookOutline,
+  bookSharp,
 } from 'ionicons/icons';
 import { FormsModule } from '@angular/forms';
 
@@ -66,6 +68,7 @@ export class AppComponent {
     { title: 'Home', url: '/home', icon: 'home' },
     { title: 'Profile', url: '/profile', icon: 'person' },
     { title: 'Facts', url: '/facts', icon: 'archive' },
+    { title: 'Narratives', url: '/narratives', icon: 'book' },
   ];
 
   constructor() {
@@ -88,6 +91,8 @@ export class AppComponent {
       personSharp,
       homeOutline,
       homeSharp,
+      bookOutline,
+      bookSharp,
     });
   }
 }

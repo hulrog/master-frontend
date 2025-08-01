@@ -1,3 +1,46 @@
-<p>
-  narratives works!
-</p>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Narratives</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  @if (!aiSummary) { @for (fact of facts; track fact.fact_id) {
+  <ion-item lines="none">
+    <ion-checkbox
+      slot="start"
+      [checked]="checkedFacts.has(fact.fact_id)"
+      (ionChange)="toggleFactChecked(fact.fact_id)"
+    >
+    </ion-checkbox>
+    <standalone-fact [fact]="fact"></standalone-fact>
+  </ion-item>
+  } @empty {
+  <p>No facts available.</p>
+  }
+
+  <ion-button
+    expand="block"
+    (click)="seeAISummary()"
+    style="margin: 20px; width: 90%"
+  >
+    See AI Summary
+  </ion-button>
+  } @if (aiSummary) {
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>AI Summary</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>{{ aiSummary }}</p>
+    </ion-card-content>
+    <ion-button
+      expand="block"
+      (click)="aiSummary = null"
+      style="margin: 20px; width: 90%"
+    >
+      Back to Facts
+    </ion-button>
+  </ion-card>
+  }
+</ion-content>

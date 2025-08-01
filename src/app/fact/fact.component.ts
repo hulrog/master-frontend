@@ -9,6 +9,7 @@ import { HighlightDirective } from '../directives/highlight.directive';
   standalone: true,
   imports: [CommonModule, IonicModule, DateFormatPipe, HighlightDirective],
   templateUrl: './fact.component.html',
+  styleUrls: ['./fact.component.scss'],
 })
 export class FactComponent {
   @Input() fact: any;

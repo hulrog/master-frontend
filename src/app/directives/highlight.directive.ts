@@ -19,13 +19,9 @@ export class HighlightDirective {
       'background-color',
       'rgba(var(--ion-color-primary-rgb), 0.2)'
     );
-    this.renderer.setStyle(this.el.nativeElement, 'padding-top', '2%');
-    this.renderer.setStyle(this.el.nativeElement, 'padding-bottom', '2%');
   }
 
   @HostListener('mouseleave') onMouseLeave() {
     this.renderer.removeStyle(this.el.nativeElement, 'background-color');
-    this.renderer.removeStyle(this.el.nativeElement, 'padding-top');
-    this.renderer.removeStyle(this.el.nativeElement, 'padding-bottom');
   }
 }

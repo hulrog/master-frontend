@@ -1,5 +1,15 @@
 <ion-app>
   <ion-content class="ion-padding">
+    @if (!showForm) {
+    <ion-button
+      expand="block"
+      type="button"
+      (click)="showForm = !showForm"
+      style="margin-bottom: 16px"
+    >
+      Verify Historian Status
+    </ion-button>
+    } @if (showForm) {
     <form
       class="form-container"
       (submit)="
@@ -48,5 +58,6 @@
         Get My Info
       </ion-button>
     </form>
+    }
   </ion-content>
 </ion-app>

@@ -65,6 +65,7 @@ export class AppComponent {
   public appPages = [
     { title: 'Home', url: '/home', icon: 'home' },
     { title: 'Profile', url: '/profile', icon: 'person' },
+    { title: 'Facts', url: '/facts', icon: 'archive' },
   ];
 
   constructor() {

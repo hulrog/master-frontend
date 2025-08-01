@@ -1,0 +1,7 @@
+<ion-app>
+  @for (fact of facts; track fact.fact_id) {
+  <standalone-fact [fact]="fact"></standalone-fact>
+  } @empty {
+  <p>No facts available.</p>
+  }
+</ion-app>

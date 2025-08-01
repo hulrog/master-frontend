@@ -26,6 +26,7 @@ import { FormsModule } from '@angular/forms';
   ],
 })
 export class ProfileComponent implements OnInit {
+  showForm: boolean = false;
   web3: Web3 | null = null;
   account: string | null = null;
   contract: any = null;

@@ -19,3 +19,10 @@ ion-button {
   font-size: 0.9rem;
   margin-top: 6px;
 }
+
+// Veći ekrani
+@media (min-width: 768px) {
+  ion-content {
+    width: 50%;
+  }
+}

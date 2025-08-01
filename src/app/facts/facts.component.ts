@@ -32,7 +32,11 @@ export class FactsComponent implements OnInit {
     try {
       const response = await fetch(`${this.baseURL}/api/getAllFacts`);
       const data = await response.json();
-      this.facts = data.facts || [];
+      this.facts = (data.facts || []).sort(
+        (a: any, b: any) =>
+          new Date(b.date_entered).getTime() -
+          new Date(a.date_entered).getTime()
+      );
     } catch (error) {
       console.error('Error fetching facts:', error);
     }

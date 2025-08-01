@@ -1,9 +1,9 @@
-<ion-card>
+<ion-card appHighlight>
   <ion-card-header>
     <ion-card-title>{{ fact.text }}</ion-card-title>
   </ion-card-header>
   <ion-card-content>
-    <p>{{ fact.date_entered }}</p>
+    <p>{{ fact.date_entered | dateFormat }}</p>
 
     <small><strong>Source:</strong> {{ fact.source }}</small>
     <p><strong> Topic:</strong> {{ fact.topic_name }}</p>

@@ -19,7 +19,11 @@
     >
       Verify Historian Status
     </ion-button>
-    } @if (showForm) {
+    } @if (showForm) { @if (loadingBlockchain) {
+    <app-loading-spinner
+      message="Loading blockchain data..."
+    ></app-loading-spinner>
+    } @else {
     <form
       class="form-container"
       (submit)="
@@ -72,6 +76,7 @@
         type="button"
         (click)="showForm = !showForm"
         style="margin-bottom: 16px"
+        color="danger"
       >
         Close Form
       </ion-button>
@@ -105,6 +110,45 @@
         </form>
       </ion-card-content>
     </ion-card>
-    } }
+    <ion-card style="margin-top: 24px">
+      <ion-card-header>
+        <ion-card-title> Messages</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <form
+          class="form-container"
+          (submit)="postMessage(historianMessage); $event.preventDefault()"
+        >
+          <ion-item>
+            <ion-label position="floating">Message</ion-label>
+            <ion-input
+              [(ngModel)]="historianMessage"
+              name="message"
+              [disabled]="!account"
+            ></ion-input>
+          </ion-item>
+
+          <ion-button
+            expand="block"
+            type="submit"
+            [disabled]="!account"
+            style="margin-top: 12px"
+          >
+            Post Message
+          </ion-button>
+
+          <ion-button
+            expand="block"
+            type="button"
+            (click)="showMessages()"
+            style="margin-bottom: 16px"
+          >
+            Show Messages
+          </ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+
+    } }}
   </ion-content>
 </ion-app>

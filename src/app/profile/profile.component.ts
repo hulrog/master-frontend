@@ -22,7 +22,21 @@ export class ProfileComponent implements OnInit {
   contract: any = null;
   historianName: string = '';
   historianInstitution: string = '';
+  historianMessage: string = '';
   contractABI = [
+    {
+      inputs: [
+        {
+          internalType: 'string',
+          name: 'content',
+          type: 'string',
+        },
+      ],
+      name: 'postMessage',
+      outputs: [],
+      stateMutability: 'nonpayable',
+      type: 'function',
+    },
     {
       inputs: [
         {
@@ -39,6 +53,31 @@ export class ProfileComponent implements OnInit {
       name: 'registerHistorian',
       outputs: [],
       stateMutability: 'nonpayable',
+      type: 'function',
+    },
+    {
+      inputs: [],
+      name: 'getAllMessages',
+      outputs: [
+        {
+          components: [
+            {
+              internalType: 'address',
+              name: 'sender',
+              type: 'address',
+            },
+            {
+              internalType: 'string',
+              name: 'content',
+              type: 'string',
+            },
+          ],
+          internalType: 'struct HistorianRegistryTest.Message[]',
+          name: '',
+          type: 'tuple[]',
+        },
+      ],
+      stateMutability: 'view',
       type: 'function',
     },
     {
@@ -60,13 +99,14 @@ export class ProfileComponent implements OnInit {
       type: 'function',
     },
   ];
-  contractAddress = '0x3295C4926226F7002AAd4461a55Cd4E82738816D';
+  contractAddress = '0xc60894c352237Ca2DCc76193e1CE0c8EfBc5De1C';
   isRegistered: boolean = false;
   newTopic = {
     name: '',
     area_name: '',
   };
   loading = true;
+  loadingBlockchain = false;
   constructor() {}
 
   ngOnInit(): void {
@@ -107,9 +147,8 @@ export class ProfileComponent implements OnInit {
           this.isRegistered = true;
           return;
         } catch (error) {
-          console.error('Error fetching historian info:', error);
           this.isRegistered = false;
-          alert('Error fetching registration info.)');
+          alert('Please register!');
         }
       } catch (error) {
         console.error('User denied account access or error:', error);
@@ -124,15 +163,40 @@ export class ProfileComponent implements OnInit {
       alert('Connect MetaMask first!');
       return;
     }
+    this.loadingBlockchain = true;
+
     try {
+      this.isRegistered = true;
       await this.contract.methods
         .registerHistorian(name, institution)
         .send({ from: this.account });
       alert('Registration successful!');
     } catch (err) {
+      this.isRegistered = false;
       console.error(err);
       alert('Registration failed or rejected.');
     }
+
+    this.loadingBlockchain = false;
+  }
+
+  async postMessage(message: string) {
+    this.loadingBlockchain = true;
+    if (!this.contract || !this.account) {
+      alert('Connect MetaMask first!');
+      return;
+    }
+    try {
+      await this.contract.methods
+        .postMessage(message)
+        .send({ from: this.account });
+      alert('Message successful!');
+      this.historianMessage = '';
+    } catch (err) {
+      console.error(err);
+      alert('Message failed.');
+    }
+    this.loadingBlockchain = false;
   }
 
   async getHistorianInfo() {
@@ -146,10 +210,38 @@ export class ProfileComponent implements OnInit {
         .getMyInfo()
         .call({ from: this.account });
 
+      console.log('Historian info:', result);
+
       const name = result[0];
       const institution = result[1];
 
       alert(`Your Info:\nName: ${name}\nInstitution: ${institution}`);
+    } catch (err) {
+      console.error(err);
+      alert('You are not registered or an error occurred.');
+    }
+  }
+
+  async showMessages() {
+    if (!this.contract || !this.account) {
+      alert('Connect MetaMask first!');
+      return;
+    }
+
+    try {
+      const result = await this.contract.methods
+        .getAllMessages()
+        .call({ from: this.account });
+
+      const messages = result
+        .map((msg: any, index: number) => {
+          return `#${index + 1}\nFrom: ${msg.sender}\nMessage: ${
+            msg.content
+          }\n`;
+        })
+        .join('\n---\n');
+
+      alert(messages || 'No messages found.');
     } catch (err) {
       console.error(err);
       alert('You are not registered or an error occurred.');

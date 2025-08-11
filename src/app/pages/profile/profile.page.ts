@@ -3,17 +3,17 @@ import Web3 from 'web3';
 import { IonicModule } from '@ionic/angular';
 
 import { FormsModule } from '@angular/forms';
-import { UserComponent } from '../user/user.component';
-import { LoadingSpinnerComponent } from '../shared/loading-spinner/loading-spinner.component';
+import { UserComponent } from '../../components/user/user.component';
+import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'],
+  templateUrl: './profile.page.html',
+  styleUrls: ['./profile.page.scss'],
   standalone: true,
   imports: [FormsModule, UserComponent, IonicModule, LoadingSpinnerComponent],
 })
-export class ProfileComponent implements OnInit {
+export class ProfilePage implements OnInit {
   baseURL = 'http://localhost:8000';
   users: any[] = [];
   showForm: boolean = false;

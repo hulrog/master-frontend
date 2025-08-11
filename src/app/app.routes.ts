@@ -1,14 +1,21 @@
 import { Routes } from '@angular/router';
-import { ProfileComponent } from './profile/profile.component';
-import { FactsComponent } from './facts/facts.component';
-import { NarrativesComponent } from './narratives/narratives.component';
 
 export const routes: Routes = [
-  { path: 'profile', component: ProfileComponent },
-  { path: 'facts', component: FactsComponent },
-  { path: 'narratives', component: NarrativesComponent },
   {
     path: 'home',
-    loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
+    loadComponent: () =>
+      import('./pages/home/home.page').then((m) => m.HomePage),
+  },
+  {
+    path: 'narratives',
+    loadComponent: () =>
+      import('./pages/narratives/narratives.page').then(
+        (m) => m.NarrativesPage
+      ),
+  },
+  {
+    path: 'profile',
+    loadComponent: () =>
+      import('./pages/profile/profile.page').then((m) => m.ProfilePage),
   },
 ];

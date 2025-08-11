@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { DateFormatPipe } from '../pipes/date-format.pipe';
-import { HighlightDirective } from '../directives/highlight.directive';
+import { DateFormatPipe } from '../../pipes/date-format.pipe';
+import { HighlightDirective } from '../../directives/highlight.directive';
 
 @Component({
   selector: 'standalone-user',

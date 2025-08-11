@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { FactComponent } from '../fact/fact.component';
-import { BlurTextDirective } from '../directives/blur.directive';
+import { IonicModule } from '@ionic/angular';
+import { FactComponent } from '../../components/fact/fact.component';
+import { BlurTextDirective } from '../../directives/blur.directive';
 
 @Component({
   selector: 'app-narratives',
-  templateUrl: './narratives.component.html',
-  styleUrls: ['./narratives.component.scss'],
+  templateUrl: './narratives.page.html',
+  styleUrls: ['./narratives.page.scss'],
   standalone: true,
   imports: [IonicModule, FormsModule, FactComponent, BlurTextDirective],
 })
-export class NarrativesComponent implements OnInit {
+export class NarrativesPage implements OnInit {
   facts: any[] = [];
   checkedFacts: Set<number> = new Set();
   aiSummary: string | null = null;

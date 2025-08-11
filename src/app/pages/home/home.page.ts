@@ -1,17 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
-import { FactComponent } from '../fact/fact.component';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LoadingSpinnerComponent } from '../shared/loading-spinner/loading-spinner.component';
+import { IonicModule } from '@ionic/angular';
+import { LoadingSpinnerComponent } from 'src/app/components/loading-spinner/loading-spinner.component';
+import { FactComponent } from 'src/app/components/fact/fact.component';
 
 @Component({
-  selector: 'app-facts',
-  templateUrl: './facts.component.html',
-  styleUrls: ['./facts.component.scss'],
+  selector: 'app-home',
+  templateUrl: './home.page.html',
+  styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonicModule, FactComponent, FormsModule, LoadingSpinnerComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    LoadingSpinnerComponent,
+    FactComponent,
+  ],
 })
-export class FactsComponent implements OnInit {
+export class HomePage implements OnInit {
   facts: any[] = [];
   baseURL = 'http://localhost:8000';
   selectedTab: 'list' | 'contribute' = 'list';

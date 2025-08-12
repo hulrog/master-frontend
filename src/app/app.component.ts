@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import {
@@ -23,8 +23,11 @@ import {
   homeSharp,
   bookOutline,
   bookSharp,
+  logOutOutline,
+  logOutSharp,
 } from 'ionicons/icons';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -39,7 +42,7 @@ export class AppComponent {
     { title: 'Narratives', url: '/narratives', icon: 'book' },
   ];
 
-  constructor() {
+  constructor(private authService: AuthService, private router: Router) {
     addIcons({
       mailOutline,
       mailSharp,
@@ -61,6 +64,13 @@ export class AppComponent {
       homeSharp,
       bookOutline,
       bookSharp,
+      logOutOutline,
+      logOutSharp,
     });
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

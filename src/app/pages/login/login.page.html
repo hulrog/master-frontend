@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form (submit)="$event.preventDefault(); login()">
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input
+        type="email"
+        [value]="credentials.email"
+        (ionInput)="credentials.email = $event.detail.value ?? ''"
+        required
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Password</ion-label>
+      <ion-input
+        type="password"
+        [value]="credentials.password"
+        (ionInput)="credentials.password = $event.detail.value ?? ''"
+        required
+      ></ion-input>
+    </ion-item>
+
+    @if (errorMessage) {
+    <ion-text color="danger" class="ion-padding">{{ errorMessage }}</ion-text>
+    }
+
+    <ion-button
+      expand="block"
+      type="submit"
+      [disabled]="!credentials.email || !credentials.password"
+      class="ion-margin-top"
+    >
+      Login
+    </ion-button>
+  </form>
+</ion-content>

@@ -65,7 +65,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class AppComponent {
   public appPages = [
-    { title: 'Home', url: '/home', icon: 'home' },
+    { title: 'Home', url: '/', icon: 'home' },
     { title: 'Profile', url: '/profile', icon: 'person' },
     { title: 'Narratives', url: '/narratives', icon: 'book' },
   ];

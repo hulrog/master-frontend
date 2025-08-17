@@ -20,19 +20,19 @@ import { AuthService } from 'src/app/services/auth.service';
   ],
 })
 export class HomePage implements OnInit {
-  facts: any[] = [];
-  baseURL = 'http://localhost:8000';
   selectedTab: 'list' | 'contribute' = 'list';
+  baseURL = 'http://localhost:8000';
+  facts: any[] = [];
 
+  // New fact form data
+  storedUser = localStorage.getItem('user_data');
+  userId = this.storedUser ? JSON.parse(this.storedUser).user_id : '';
   newFact = {
     text: '',
     source: '',
-    user_id: localStorage.getItem('user_data')
-      ? JSON.parse(localStorage.getItem('user_data')!).user_id
-      : '',
+    user_id: this.userId,
     topic_id: '',
   };
-
   topicSearch = '';
   topics: any[] = [];
   selectedTopic: any = null;
@@ -60,7 +60,6 @@ export class HomePage implements OnInit {
     }
   }
 
-  // Search topics by query
   async searchTopics(query: string) {
     if (!query) {
       this.topics = [];

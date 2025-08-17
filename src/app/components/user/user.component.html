@@ -1,6 +1,10 @@
 <div class="user-circle" (click)="toggleDetails()" appHighlight>
   @if (!expandedUser) {
-  <div class="user-name">{{ user.name }}</div>
+  <div class="user-name">
+    {{ user.name }}
+    <!-- TODO: dinamicki -->
+    <span class="fi fi-de"> </span>
+  </div>
   } @if (expandedUser) {
   <div class="user-details">
     <p>{{ user.date_joined | dateFormat }}</p>

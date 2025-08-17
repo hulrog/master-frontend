@@ -124,6 +124,7 @@ export class ProfilePage implements OnInit {
       this.users = (data.users || []).sort(
         (a: any, b: any) => Number(b.user_id) - Number(a.user_id)
       );
+      console.log('Users loaded:', this.users);
     } catch (error) {
       console.error('Error fetching users:', error);
     }

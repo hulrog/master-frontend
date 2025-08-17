@@ -2,8 +2,7 @@
   @if (!expandedUser) {
   <div class="user-name">
     {{ user.name }}
-    <!-- TODO: dinamicki -->
-    <span class="fi fi-de"> </span>
+    <span [class]="'fi fi-' + user.country.code.toLowerCase()"> </span>
   </div>
   } @if (expandedUser) {
   <div class="user-details">

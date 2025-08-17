@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { LoadingSpinnerComponent } from 'src/app/components/loading-spinner/loading-spinner.component';
 import { FactComponent } from 'src/app/components/fact/fact.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -26,7 +27,9 @@ export class HomePage implements OnInit {
   newFact = {
     text: '',
     source: '',
-    user_id: 2, // Zakucan ID
+    user_id: localStorage.getItem('user_data')
+      ? JSON.parse(localStorage.getItem('user_data')!).user_id
+      : '',
     topic_id: '',
   };
 
@@ -36,7 +39,7 @@ export class HomePage implements OnInit {
 
   loading = true;
 
-  constructor() {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit() {
     this.loadFacts();
@@ -44,7 +47,9 @@ export class HomePage implements OnInit {
 
   async loadFacts() {
     try {
-      const response = await fetch(`${this.baseURL}/api/getAllFacts`);
+      const response = await fetch(`${this.baseURL}/api/getAllFacts`, {
+        headers: this.authService.getAuthHeaders(),
+      });
       const data = await response.json();
       this.loading = false;
       this.facts = (data.facts || []).sort(
@@ -65,7 +70,10 @@ export class HomePage implements OnInit {
       const response = await fetch(
         `${this.baseURL}/api/getAllTopicsContainingLetters/${encodeURIComponent(
           query
-        )}`
+        )}`,
+        {
+          headers: this.authService.getAuthHeaders(),
+        }
       );
       const data = await response.json();
       this.topics = data.topics || [];
@@ -97,7 +105,7 @@ export class HomePage implements OnInit {
     try {
       const response = await fetch(`${this.baseURL}/api/createFact`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: this.authService.getAuthHeaders(),
         body: JSON.stringify(this.newFact),
       });
       if (response.ok) {

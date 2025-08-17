@@ -73,4 +73,8 @@ export class AppComponent {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
+
+  isAuthPage() {
+    return ['/login', '/register'].includes(this.router.url);
+  }
 }

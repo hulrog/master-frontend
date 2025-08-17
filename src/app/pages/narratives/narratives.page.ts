@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { FactComponent } from '../../components/fact/fact.component';
 import { BlurTextDirective } from '../../directives/blur.directive';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-narratives',
@@ -17,13 +18,17 @@ export class NarrativesPage implements OnInit {
   aiSummary: string | null = null;
   baseURL = 'http://localhost:8000';
 
+  constructor(private authService: AuthService) {}
+
   ngOnInit() {
     this.loadFacts();
   }
 
   async loadFacts() {
     try {
-      const response = await fetch(`${this.baseURL}/api/getAllFacts`);
+      const response = await fetch(`${this.baseURL}/api/getAllFacts`, {
+        headers: this.authService.getAuthHeaders(),
+      });
       const data = await response.json();
       this.facts = data.facts || [];
     } catch (error) {
@@ -53,7 +58,7 @@ export class NarrativesPage implements OnInit {
     try {
       const response = await fetch(`${this.baseURL}/api/testAi`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: this.authService.getAuthHeaders(),
         body: JSON.stringify(payload),
       });
 

@@ -72,8 +72,7 @@ export class RegisterPage implements OnInit {
       const success = await this.authService.register(
         this.userData.name,
         this.userData.email,
-        this.userData.password,
-        this.userData.password_confirmation
+        this.userData.password
       );
       if (success) {
         this.router.navigate(['/']);

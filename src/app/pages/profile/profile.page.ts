@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { UserComponent } from '../../components/user/user.component';
 import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -107,7 +108,7 @@ export class ProfilePage implements OnInit {
   };
   loading = true;
   loadingBlockchain = false;
-  constructor() {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.loadUsers();
@@ -115,7 +116,9 @@ export class ProfilePage implements OnInit {
 
   async loadUsers() {
     try {
-      const response = await fetch(`${this.baseURL}/api/getAllUsers`);
+      const response = await fetch(`${this.baseURL}/api/getAllUsers`, {
+        headers: this.authService.getAuthHeaders(),
+      });
       const data = await response.json();
       this.loading = false;
       this.users = (data.users || []).sort(
@@ -253,7 +256,7 @@ export class ProfilePage implements OnInit {
     try {
       const response = await fetch(`${this.baseURL}/api/createTopic`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: this.authService.getAuthHeaders(),
         body: JSON.stringify(this.newTopic),
       });
       if (response.ok) {

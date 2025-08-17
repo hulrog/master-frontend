@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
       import('./pages/home/home.page').then((m) => m.HomePage),
+    canActivate: [AuthGuard],
   },
   {
     path: 'narratives',
@@ -12,11 +14,13 @@ export const routes: Routes = [
       import('./pages/narratives/narratives.page').then(
         (m) => m.NarrativesPage
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'profile',
     loadComponent: () =>
       import('./pages/profile/profile.page').then((m) => m.ProfilePage),
+    canActivate: [AuthGuard],
   },
   {
     path: 'login',

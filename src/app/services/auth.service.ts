@@ -13,8 +13,7 @@ export class AuthService {
   async register(
     name: string,
     email: string,
-    password: string,
-    password_confirmation: string
+    password: string
   ): Promise<boolean> {
     try {
       const response = await fetch(`${this.baseURL}/api/register`, {
@@ -22,7 +21,11 @@ export class AuthService {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, email, password, password_confirmation }),
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+        }),
       });
 
       if (response.ok) {

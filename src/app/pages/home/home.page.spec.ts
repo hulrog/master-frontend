@@ -39,7 +39,7 @@ describe('HomePage', () => {
     component.newFact = {
       text: 'Nemanja Fact',
       source: 'Source',
-      user_id: 2,
+      user_id: '2',
       topic_id: '2',
     };
     component.selectedTopic = { topic_id: 2, name: 'Stefan Nemanja' };

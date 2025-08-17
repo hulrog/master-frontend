@@ -1,7 +1,7 @@
 <ion-app>
   <ion-content class="ion-padding">
     @if (loading) {
-    <app-loading-spinner message="Loading facts..."></app-loading-spinner>\ }
+    <standalone-spinner message="Loading facts..."></standalone-spinner>\ }
     @else {
     <ion-list class="horizontal-list">
       @for (user of users; track user.user_id) {
@@ -20,9 +20,9 @@
       Verify Historian Status
     </ion-button>
     } @if (showForm) { @if (loadingBlockchain) {
-    <app-loading-spinner
+    <standalone-spinner
       message="Loading blockchain data..."
-    ></app-loading-spinner>
+    ></standalone-spinner>
     } @else {
     <form
       class="form-container"

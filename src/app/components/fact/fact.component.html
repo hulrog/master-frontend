@@ -7,5 +7,14 @@
 
     <small><strong>Source:</strong> {{ fact.source }}</small>
     <p><strong> Topic:</strong> {{ fact.topic_name }}</p>
+    <div class="vote-buttons">
+      <ion-button fill="clear" (click)="vote(fact.fact_id, true)">
+        <ion-icon slot="icon-only" name="thumbs-up-outline"></ion-icon>
+      </ion-button>
+
+      <ion-button fill="clear" (click)="vote(fact.fact_id, false)">
+        <ion-icon slot="icon-only" name="thumbs-down-outline"></ion-icon>
+      </ion-button>
+    </div>
   </ion-card-content>
 </ion-card>

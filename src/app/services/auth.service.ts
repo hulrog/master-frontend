@@ -13,7 +13,10 @@ export class AuthService {
   async register(
     name: string,
     email: string,
-    password: string
+    password: string,
+    gender: string,
+    country_id: string,
+    date_of_birth: string
   ): Promise<boolean> {
     try {
       const response = await fetch(`${this.baseURL}/api/register`, {
@@ -25,6 +28,9 @@ export class AuthService {
           name,
           email,
           password,
+          gender,
+          country_id,
+          date_of_birth,
         }),
       });
 

@@ -47,7 +47,7 @@ export class HomePage implements OnInit {
 
   async loadFacts() {
     try {
-      const response = await fetch(`${this.baseURL}/api/getAllFacts`, {
+      const response = await fetch(`${this.baseURL}/api/getInterestingFacts`, {
         headers: this.authService.getAuthHeaders(),
       });
       const data = await response.json();

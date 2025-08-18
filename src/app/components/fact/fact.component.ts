@@ -4,7 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { DateFormatPipe } from '../../pipes/date-format.pipe';
 import { HighlightDirective } from '../../directives/highlight.directive';
 import { AuthService } from 'src/app/services/auth.service';
-import { thumbsDownOutline, thumbsUpOutline } from 'ionicons/icons';
+import { thumbsDown, thumbsUp } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 
 @Component({
@@ -21,12 +21,15 @@ export class FactComponent {
 
   constructor(private authService: AuthService) {
     addIcons({
-      thumbsDownOutline,
-      thumbsUpOutline,
+      thumbsDown,
+      thumbsUp,
     });
   }
 
   async vote(factId: number, rating: boolean) {
+    if (rating == this.fact.rating) {
+      return;
+    }
     try {
       const response = await fetch(`${this.baseURL}/api/createFactVote`, {
         method: 'POST',
@@ -37,7 +40,31 @@ export class FactComponent {
           rating: rating,
         }),
       });
-      if (!response.ok) alert('Failed to vote');
+      if (!response.ok) {
+        alert('Failed to vote');
+        return;
+      }
+      if (
+        this.fact.user_rating === null ||
+        this.fact.user_rating === undefined
+      ) {
+        if (rating) {
+          this.fact.true_ratings += 1;
+        } else {
+          this.fact.false_ratings += 1;
+        }
+      } else {
+        if (rating) {
+          this.fact.true_ratings += 1;
+          this.fact.false_ratings -= 1;
+        } else {
+          this.fact.true_ratings -= 1;
+          this.fact.false_ratings += 1;
+        }
+      }
+
+      // Update the local fact object to reflect the new vote
+      this.fact.user_rating = rating ? 1 : 0;
     } catch (error) {
       console.error('Vote error:', error);
       alert('Error submitting vote');

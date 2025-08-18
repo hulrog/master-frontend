@@ -8,13 +8,51 @@
     <small><strong>Source:</strong> {{ fact.source }}</small>
     <p><strong> Topic:</strong> {{ fact.topic_name }}</p>
     <div class="vote-buttons">
-      <ion-button fill="clear" (click)="vote(fact.fact_id, true)">
-        <ion-icon slot="icon-only" name="thumbs-up-outline"></ion-icon>
+      <ion-button
+        fill="clear"
+        [color]="fact.user_rating === 1 ? 'primary' : 'medium'"
+        (click)="vote(fact.fact_id, true)"
+      >
+        <ion-icon slot="icon-only" name="thumbs-up"></ion-icon>
       </ion-button>
-
-      <ion-button fill="clear" (click)="vote(fact.fact_id, false)">
-        <ion-icon slot="icon-only" name="thumbs-down-outline"></ion-icon>
+      <div class="like-bar-container">
+        <div
+          class="like-bar likes"
+          [style.width.%]="
+            fact.true_ratings + fact.false_ratings > 0
+              ? (fact.true_ratings / (fact.true_ratings + fact.false_ratings)) *
+                100
+              : 0
+          "
+        ></div>
+        <div
+          class="like-bar dislikes"
+          [style.width.%]="
+            fact.true_ratings + fact.false_ratings > 0
+              ? (fact.false_ratings /
+                  (fact.true_ratings + fact.false_ratings)) *
+                100
+              : 0
+          "
+        ></div>
+      </div>
+      <ion-button
+        fill="clear"
+        [color]="fact.user_rating === 0 ? 'danger' : 'medium'"
+        (click)="vote(fact.fact_id, false)"
+      >
+        <ion-icon slot="icon-only" name="thumbs-down"></ion-icon>
       </ion-button>
+    </div>
+    <div class="fact-statistics-container">
+      <div class="fact-statistic">
+        {{ fact.true_ratings }}
+        <ion-icon name="thumbs-up"></ion-icon>
+      </div>
+      <div class="fact-statistic">
+        {{ fact.false_ratings }}
+        <ion-icon name="thumbs-down"></ion-icon>
+      </div>
     </div>
   </ion-card-content>
 </ion-card>

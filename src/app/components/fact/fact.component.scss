@@ -4,6 +4,42 @@
   margin-top: 10px;
   align-items: center;
 }
-ion-icon {
+.vote-buttons ion-icon {
   cursor: pointer;
+}
+
+.like-bar-container {
+  display: flex;
+  height: 12px;
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 8px 0;
+}
+
+.like-bar {
+  height: 100%;
+}
+
+.like-bar.likes {
+  background-color: var(--ion-color-primary);
+}
+
+.like-bar.dislikes {
+  background-color: var(--ion-color-danger);
+}
+
+.fact-statistics-container {
+  display: flex;
+  justify-content: center;
+  gap: 10%;
+  width: 100%;
+  overflow: hidden;
+  margin: 8px;
+  padding: 8px;
+}
+
+.fact-statistic {
+  display: flex;
+  align-items: center;
 }

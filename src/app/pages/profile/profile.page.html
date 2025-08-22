@@ -1,7 +1,7 @@
 <ion-app>
   <ion-content class="ion-padding">
     @if (loading) {
-    <standalone-spinner message="Loading facts..."></standalone-spinner>\ }
+    <standalone-spinner message="Loading users..."></standalone-spinner>\ }
     @else {
     <ion-list class="horizontal-list">
       @for (user of users; track user.user_id) {
@@ -10,6 +10,16 @@
       <p>No users available.</p>
       }
     </ion-list>
+    }
+    <!-- Current User Profile -->
+    @if (currentUser) {
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ currentUser.name}}</ion-card-title>
+        <ion-card-subtitle>{{ currentUser.email }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content> </ion-card-content>
+    </ion-card>
     } @if (!showForm) {
     <ion-button
       expand="block"

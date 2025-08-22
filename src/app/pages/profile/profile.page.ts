@@ -16,6 +16,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class ProfilePage implements OnInit {
   baseURL = 'http://localhost:8000';
+  currentUser: any;
   users: any[] = [];
   showForm: boolean = false;
   web3: Web3 | null = null;
@@ -111,6 +112,7 @@ export class ProfilePage implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
+    this.currentUser = this.authService.getUser();
     this.loadUsers();
   }
 

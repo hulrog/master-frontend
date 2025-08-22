@@ -43,11 +43,7 @@ export class LoginPage implements OnInit {
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit() {
-    if (this.authService.isAuthenticated()) {
-      this.router.navigate(['/']);
-    }
-  }
+  ngOnInit() {}
 
   async login() {
     this.errorMessage = '';
@@ -62,7 +58,12 @@ export class LoginPage implements OnInit {
         this.credentials.password
       );
       if (success) {
+        document.body.classList.add('fade-out');
         this.router.navigate(['/']);
+
+        setTimeout(() => {
+          document.body.classList.remove('fade-out');
+        }, 300);
       } else {
         this.errorMessage = 'Invalid email or password';
       }

@@ -69,9 +69,14 @@ export class AppComponent {
     });
   }
 
-  logout() {
-    this.authService.logout();
+  async logout() {
+    await this.authService.logout();
+    document.body.classList.add('fade-out');
     this.router.navigate(['/login']);
+
+    setTimeout(() => {
+      document.body.classList.remove('fade-out');
+    }, 300);
   }
 
   isAuthPage() {

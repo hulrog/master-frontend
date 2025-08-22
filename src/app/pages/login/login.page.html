@@ -7,7 +7,7 @@
 <ion-content class="ion-padding">
   <form (submit)="$event.preventDefault(); login()">
     <ion-item>
-      <ion-label position="floating">Email</ion-label>
+      <ion-label position="stacked">Email</ion-label>
       <ion-input
         type="email"
         [value]="credentials.email"
@@ -17,7 +17,7 @@
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Password</ion-label>
+      <ion-label position="stacked">Password</ion-label>
       <ion-input
         type="password"
         [value]="credentials.password"

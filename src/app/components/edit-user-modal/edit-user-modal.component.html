@@ -8,43 +8,70 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <form (submit)="submitForm($event)">
+  <form (submit)="$event.preventDefault(); submitForm()">
     <ion-item>
       <ion-label position="floating">Name</ion-label>
-      <ion-input [(ngModel)]="userData.name" name="name" required></ion-input>
+      <ion-input
+        type="text"
+        [value]="userData.name"
+        (ionInput)="userData.name = $event.detail.value ?? ''"
+        required
+      ></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="floating">Email</ion-label>
       <ion-input
-        [(ngModel)]="userData.email"
-        name="email"
         type="email"
+        [value]="userData.email"
+        (ionInput)="userData.email = $event.detail.value ?? ''"
         required
+        autocomplete="off"
       ></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Gender</ion-label>
-      <ion-select [(ngModel)]="userData.gender" name="gender" required>
-        <ion-select-option value="male">Male</ion-select-option>
-        <ion-select-option value="female">Female</ion-select-option>
-        <ion-select-option value="other">Other</ion-select-option>
+      <ion-label position="fixed">Gender</ion-label>
+      <ion-select
+        [value]="userData.gender"
+        (ionChange)="userData.gender = $event.detail.value"
+        required
+      >
+        @for (gender of genders; track gender.value) {
+        <ion-select-option [value]="gender.value">
+          {{ gender.label }}
+        </ion-select-option>
+        }
       </ion-select>
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Country ID</ion-label>
-      <ion-input
-        [(ngModel)]="userData.country_id"
-        name="country_id"
-        type="number"
+      <ion-label position="fixed">Country</ion-label>
+      <ion-select
+        [value]="userData.country_id"
+        (ionChange)="userData.country_id = $event.detail.value"
         required
-      ></ion-input>
+      >
+        @for (country of countries; track country.country_id) {
+        <ion-select-option [value]="country.country_id">
+          {{ country.name }}
+        </ion-select-option>
+        }
+      </ion-select>
     </ion-item>
 
-    <ion-button expand="block" type="submit" style="margin-top: 16px"
-      >Save</ion-button
+    <ion-button
+      expand="block"
+      type="submit"
+      [disabled]="
+        !userData.name ||
+        !userData.email ||
+        !userData.gender ||
+        !userData.country_id
+      "
+      class="ion-margin-top"
     >
+      Save
+    </ion-button>
   </form>
 </ion-content>

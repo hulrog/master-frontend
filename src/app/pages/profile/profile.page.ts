@@ -25,11 +25,24 @@ import { EditUserModal } from 'src/app/components/edit-user-modal/edit-user-moda
   ],
 })
 export class ProfilePage implements OnInit {
+  selectedTab: 'details' | 'expertise' = 'details';
   baseURL = 'http://localhost:8000';
   currentUser: any;
   users: any[] = [];
   selectedUser: any = null; // user clicked from list
   loading = true;
+
+  //Eskpertize
+  areaSearch = '';
+  areas: any[] = [];
+  selectedArea: any = null;
+
+  storedUser = localStorage.getItem('user_data');
+  userId = this.storedUser ? JSON.parse(this.storedUser).user_id : '';
+  newExpertise = {
+    user_id: this.userId,
+    area_id: '',
+  };
 
   // Blockchain
   showForm: boolean = false;
@@ -139,9 +152,9 @@ export class ProfilePage implements OnInit {
       });
       const data = await response.json();
       this.loading = false;
-      this.users = (data.users || []).sort(
-        (a: any, b: any) => Number(b.user_id) - Number(a.user_id)
-      );
+      this.users = (data.users || [])
+        .sort((a: any, b: any) => Number(b.user_id) - Number(a.user_id))
+        .filter((u: any) => u.user_id !== this.currentUser.user_id);
       console.log('Users loaded:', this.users);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -325,6 +338,67 @@ export class ProfilePage implements OnInit {
     } catch (error) {
       console.error('Submit error:', error);
       alert('Error submitting topic');
+    }
+  }
+
+  // Ekspertize
+  async searchAreas(query: string) {
+    if (!query) {
+      this.areas = [];
+      return;
+    }
+    try {
+      const response = await fetch(
+        `${this.baseURL}/api/getAllAreasContainingLetters/${encodeURIComponent(
+          query
+        )}`,
+        {
+          headers: this.authService.getAuthHeaders(),
+        }
+      );
+      const data = await response.json();
+      this.areas = data.areas || [];
+    } catch (error) {
+      console.error('Error searching areas:', error);
+      this.areas = [];
+    }
+  }
+
+  selectArea(area: any) {
+    this.selectedArea = area;
+    this.newExpertise.area_id = area.area_id;
+    this.areaSearch = area.name;
+    this.areas = [];
+  }
+
+  handleAreaInputClick() {
+    if (this.selectedArea) {
+      this.selectedArea = null;
+      this.areaSearch = '';
+    }
+  }
+
+  async submitFact() {
+    if (!this.selectedArea) {
+      alert('Please select an area.');
+      return;
+    }
+    try {
+      const response = await fetch(`${this.baseURL}/api/createExpertise`, {
+        method: 'POST',
+        headers: this.authService.getAuthHeaders(),
+        body: JSON.stringify(this.newExpertise),
+      });
+      if (response.ok) {
+        this.newExpertise.area_id = '';
+        this.selectedArea = null;
+        this.areaSearch = '';
+      } else {
+        alert('Failed to submit fact');
+      }
+    } catch (error) {
+      console.error('Submit error:', error);
+      alert('Error submitting fact');
     }
   }
 }

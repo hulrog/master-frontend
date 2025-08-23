@@ -1,4 +1,12 @@
 <ion-app>
+  <ion-header>
+    <ion-toolbar>
+      <ion-segment [(ngModel)]="selectedTab" color="primary">
+        <ion-segment-button value="details">Details</ion-segment-button>
+        <ion-segment-button value="expertise">Expertise</ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+  </ion-header>
   <ion-content class="ion-padding">
     @if (loading) {
     <standalone-spinner message="Loading users..."></standalone-spinner>\ }
@@ -10,7 +18,7 @@
       <p>No users available.</p>
       }
     </ion-list>
-    }
+    } @if (selectedTab === 'details') {
     <!-- Displayed User Profile -->
     @if (displayedUser) {
     <ion-card class="user-profile-card">
@@ -53,11 +61,15 @@
           </div>
         </div>
         @if (selectedUser) {
-        <ion-button color="medium" (click)="showCurrentUser()">
+        <ion-button color="medium" (click)="showCurrentUser()" expand="block">
           Back to My Profile
         </ion-button>
         } @else {
-        <ion-button color="primary" (click)="openEditModal(currentUser)">
+        <ion-button
+          color="primary"
+          (click)="openEditModal(currentUser)"
+          expand="block"
+        >
           Edit User
         </ion-button>
         }
@@ -202,6 +214,31 @@
       </ion-card-content>
     </ion-card>
 
-    } }}
+    } }} } @if (selectedTab==='expertise') {
+    <form (submit)="$event.preventDefault(); submitFact()">
+      <ion-item>
+        <ion-label position="floating">Area</ion-label>
+        <ion-input
+          (click)="handleAreaInputClick()"
+          [(ngModel)]="areaSearch"
+          [readonly]="selectedArea"
+          name="areaSearch"
+          (ionInput)="searchAreas(($event.target.value ?? '').toString())"
+          placeholder="Search area..."
+          required
+        ></ion-input>
+      </ion-item>
+      @if (areas.length && !selectedArea) {
+      <ion-list>
+        @for (area of areas; track area.area_id) {
+        <ion-item button (click)="selectArea(area)"> {{ area.name }} </ion-item>
+        }
+      </ion-list>
+      }
+      <ion-button expand="block" type="submit" style="margin-top: 20px"
+        >Create Expertise</ion-button
+      >
+    </form>
+    }
   </ion-content>
 </ion-app>

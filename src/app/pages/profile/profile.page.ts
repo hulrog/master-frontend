@@ -31,7 +31,7 @@ export class ProfilePage implements OnInit {
   baseURL = 'http://localhost:8000';
   currentUser: any;
   users: any[] = [];
-  selectedUser: any = null; // user clicked from list
+  selectedUser: any = null;
   loading = true;
 
   //Eskpertize
@@ -157,20 +157,31 @@ export class ProfilePage implements OnInit {
       });
       const data = await response.json();
       this.loading = false;
-      this.users = (data.users || [])
-        .sort((a: any, b: any) => Number(b.user_id) - Number(a.user_id))
-        .filter((u: any) => u.user_id !== this.currentUser.user_id);
+
+      const allUsers = data.users || [];
+
+      // sort: current user first, then by user_id descending
+      this.users = allUsers.sort((a: any, b: any) => {
+        if (a.user_id === this.currentUser.user_id) return -1; // a first
+        if (b.user_id === this.currentUser.user_id) return 1; // b first
+        return Number(b.user_id) - Number(a.user_id); // others by user_id desc
+      });
     } catch (error) {
       console.error('Error fetching users:', error);
     }
   }
-
   showUser(user: any) {
+    if (user.user_id === this.currentUser.user_id) {
+      this.showCurrentUser();
+      return;
+    }
     this.selectedUser = user;
+    this.loadExpertisesOfUser(this.selectedUser.user_id);
   }
 
   showCurrentUser() {
     this.selectedUser = null;
+    this.loadExpertisesOfUser(this.currentUser.user_id);
   }
 
   get displayedUser() {
@@ -381,7 +392,7 @@ export class ProfilePage implements OnInit {
     }
   }
 
-  async submitFact() {
+  async createExpertise() {
     if (!this.selectedArea) {
       alert('Please select an area.');
       return;
@@ -396,6 +407,8 @@ export class ProfilePage implements OnInit {
         this.newExpertise.area_id = '';
         this.selectedArea = null;
         this.areaSearch = '';
+        this.areas = [];
+        this.loadExpertisesOfUser(this.userId);
       } else {
         alert('Failed to submit fact');
       }
@@ -407,6 +420,7 @@ export class ProfilePage implements OnInit {
 
   // Prikaz ekspertize
   async loadExpertisesOfUser(userId: number) {
+    this.expertises = [];
     try {
       const response = await fetch(
         `${this.baseURL}/api/getAllExpertisesOfUser/${userId}`,

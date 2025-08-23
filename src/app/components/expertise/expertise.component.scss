@@ -1,0 +1,19 @@
+.expertise-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: var(--ion-color-light);
+  box-shadow: 0 2px 10px var(--ion-color-medium);
+}
+
+.expertise-name {
+  font-weight: bold;
+  color: var(--ion-color-dark);
+}
+
+.expertise-rating {
+  color: var(--ion-color-primary);
+}

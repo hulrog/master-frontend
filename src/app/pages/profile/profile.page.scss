@@ -31,6 +31,12 @@ ion-button {
   scrollbar-width: thin;
 }
 
+standalone-user.selected {
+  border-radius: 50%;
+  box-shadow: 0 0 20px var(--ion-color-primary);
+  transition: 0.2s ease;
+}
+
 .user-profile-card {
   .header-container {
     display: flex;

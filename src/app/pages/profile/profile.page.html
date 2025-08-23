@@ -13,7 +13,11 @@
     @else {
     <ion-list class="horizontal-list">
       @for (user of users; track user.user_id) {
-      <standalone-user [user]="user" (click)="showUser(user)"></standalone-user>
+      <standalone-user
+        [user]="user"
+        (click)="showUser(user)"
+        [class.selected]="selectedUser?.user_id === user.user_id  || (!selectedUser && currentUser?.user_id === user.user_id)"
+      ></standalone-user>
       } @empty {
       <p>No users available.</p>
       }
@@ -214,8 +218,13 @@
       </ion-card-content>
     </ion-card>
 
-    } }} } @if (selectedTab==='expertise') {
-    <form (submit)="$event.preventDefault(); submitFact()">
+    } }} } @if (selectedTab==='expertise') { @if (expertises.length) { @for
+    (expertise of expertises; track expertise.expertise_id) {
+    <standalone-expertise [expertise]="expertise"></standalone-expertise>
+    } } @else {
+    <p>No expertise.</p>
+    } @if (selectedUser) { } @else {
+    <form (submit)="$event.preventDefault(); createExpertise()">
       <ion-item>
         <ion-label position="floating">Area</ion-label>
         <ion-input
@@ -238,11 +247,7 @@
       <ion-button expand="block" type="submit" style="margin-top: 20px"
         >Create Expertise</ion-button
       >
-      @if (expertises.length) { @for (expertise of expertises; track
-      expertise.expertise_id) {
-      <standalone-expertise [expertise]="expertise"></standalone-expertise>
-      } }
     </form>
-    }
+    } }
   </ion-content>
 </ion-app>

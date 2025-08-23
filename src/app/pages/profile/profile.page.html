@@ -53,12 +53,12 @@
           </div>
         </div>
         @if (selectedUser) {
-        <ion-button
-          color="medium"
-          (click)="showCurrentUser()"
-          style="margin-top: 16px"
-        >
+        <ion-button color="medium" (click)="showCurrentUser()">
           Back to My Profile
+        </ion-button>
+        } @else {
+        <ion-button color="primary" (click)="openEditModal(currentUser)">
+          Edit User
         </ion-button>
         }
       </ion-card-content>

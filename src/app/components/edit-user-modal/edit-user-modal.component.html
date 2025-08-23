@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Edit User</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form (submit)="submitForm($event)">
+    <ion-item>
+      <ion-label position="floating">Name</ion-label>
+      <ion-input [(ngModel)]="userData.name" name="name" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input
+        [(ngModel)]="userData.email"
+        name="email"
+        type="email"
+        required
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Gender</ion-label>
+      <ion-select [(ngModel)]="userData.gender" name="gender" required>
+        <ion-select-option value="male">Male</ion-select-option>
+        <ion-select-option value="female">Female</ion-select-option>
+        <ion-select-option value="other">Other</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Country ID</ion-label>
+      <ion-input
+        [(ngModel)]="userData.country_id"
+        name="country_id"
+        type="number"
+        required
+      ></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" style="margin-top: 16px"
+      >Save</ion-button
+    >
+  </form>
+</ion-content>

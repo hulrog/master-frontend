@@ -8,6 +8,9 @@ import { LoadingSpinnerComponent } from '../../components/loading-spinner/loadin
 import { AuthService } from 'src/app/services/auth.service';
 import { DateFormatPipe } from '../../pipes/date-format.pipe';
 
+import { ModalController } from '@ionic/angular';
+import { EditUserModal } from 'src/app/components/edit-user-modal/edit-user-modal.component';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -119,7 +122,10 @@ export class ProfilePage implements OnInit {
     area_name: '',
   };
   loadingBlockchain = false;
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private modalCtrl: ModalController
+  ) {}
 
   ngOnInit(): void {
     this.currentUser = this.authService.getUser();
@@ -152,6 +158,30 @@ export class ProfilePage implements OnInit {
 
   get displayedUser() {
     return this.selectedUser || this.currentUser;
+  }
+
+  // Edit modal
+  async openEditModal(user: any) {
+    const modal = await this.modalCtrl.create({
+      component: EditUserModal,
+      componentProps: { user },
+    });
+
+    modal.onDidDismiss().then((res) => {
+      if (res.data) {
+        // Update trenutnog usera na stranici
+        this.currentUser = res.data;
+        // Update u listi korisnika
+        const index = this.users.findIndex(
+          (u) => u.user_id === res.data.user_id
+        );
+        if (index >= 0) this.users[index] = res.data;
+        // Update u localStorage
+        localStorage.setItem('user_data', JSON.stringify(res.data));
+      }
+    });
+
+    await modal.present();
   }
 
   // Blockchain

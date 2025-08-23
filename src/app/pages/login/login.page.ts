@@ -72,4 +72,8 @@ export class LoginPage implements OnInit {
       this.errorMessage = 'An error occurred during login';
     }
   }
+
+  goToRegister() {
+    this.router.navigate(['/register']);
+  }
 }

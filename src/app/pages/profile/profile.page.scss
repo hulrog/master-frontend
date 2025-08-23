@@ -28,3 +28,28 @@ ion-button {
   gap: 16px;
   padding: 20px;
 }
+
+.user-profile-card {
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .user-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .user-flag {
+    display: flex;
+    align-items: center;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin: 20px 0px;
+  }
+}

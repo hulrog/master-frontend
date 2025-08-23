@@ -28,7 +28,7 @@
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Gender</ion-label>
+      <ion-label position="fixed">Gender</ion-label>
       <ion-select
         [value]="userData.gender"
         (ionChange)="userData.gender = $event.detail.value"
@@ -43,7 +43,7 @@
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Country</ion-label>
+      <ion-label position="fixed">Country</ion-label>
       <ion-select
         [value]="userData.country_id"
         (ionChange)="userData.country_id = $event.detail.value"
@@ -58,7 +58,7 @@
     </ion-item>
 
     <ion-item>
-      <ion-label position="start">Date of Birth</ion-label>
+      <ion-label position="fixed">Date of Birth</ion-label>
       <ion-input
         type="date"
         [value]="userData.date_of_birth"
@@ -105,4 +105,12 @@
       Register
     </ion-button>
   </form>
+
+  <!-- Bottom link section -->
+  <div class="ion-text-center ion-margin-top">
+    <span>Already have an account? </span>
+    <ion-label color="primary" style="cursor: pointer" (click)="goToLogin()"
+      >Log in</ion-label
+    >
+  </div>
 </ion-content>

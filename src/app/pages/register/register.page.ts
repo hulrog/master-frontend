@@ -121,4 +121,8 @@ export class RegisterPage implements OnInit {
       this.errorMessage = 'An error occurred during registration';
     }
   }
+
+  goToLogin() {
+    this.router.navigate(['/login']);
+  }
 }

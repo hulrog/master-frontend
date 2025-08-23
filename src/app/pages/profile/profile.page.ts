@@ -6,13 +6,20 @@ import { FormsModule } from '@angular/forms';
 import { UserComponent } from '../../components/user/user.component';
 import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
 import { AuthService } from 'src/app/services/auth.service';
+import { DateFormatPipe } from '../../pipes/date-format.pipe';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
   standalone: true,
-  imports: [FormsModule, UserComponent, IonicModule, LoadingSpinnerComponent],
+  imports: [
+    FormsModule,
+    UserComponent,
+    IonicModule,
+    LoadingSpinnerComponent,
+    DateFormatPipe,
+  ],
 })
 export class ProfilePage implements OnInit {
   baseURL = 'http://localhost:8000';

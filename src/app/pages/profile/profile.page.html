@@ -238,6 +238,10 @@
       <ion-button expand="block" type="submit" style="margin-top: 20px"
         >Create Expertise</ion-button
       >
+      @if (expertises.length) { @for (expertise of expertises; track
+      expertise.expertise_id) {
+      <standalone-expertise [expertise]="expertise"></standalone-expertise>
+      } }
     </form>
     }
   </ion-content>

@@ -4,6 +4,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { FormsModule } from '@angular/forms';
 import { UserComponent } from '../../components/user/user.component';
+import { ExpertiseComponent } from 'src/app/components/expertise/expertise.component';
 import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { DateFormatPipe } from '../../pipes/date-format.pipe';
@@ -19,6 +20,7 @@ import { EditUserModal } from 'src/app/components/edit-user-modal/edit-user-moda
   imports: [
     FormsModule,
     UserComponent,
+    ExpertiseComponent,
     IonicModule,
     LoadingSpinnerComponent,
     DateFormatPipe,
@@ -43,6 +45,8 @@ export class ProfilePage implements OnInit {
     user_id: this.userId,
     area_id: '',
   };
+
+  expertises: any[] = [];
 
   // Blockchain
   showForm: boolean = false;
@@ -143,6 +147,7 @@ export class ProfilePage implements OnInit {
   ngOnInit(): void {
     this.currentUser = this.authService.getUser();
     this.loadUsers();
+    this.loadExpertisesOfUser(this.currentUser.user_id);
   }
 
   async loadUsers() {
@@ -155,7 +160,6 @@ export class ProfilePage implements OnInit {
       this.users = (data.users || [])
         .sort((a: any, b: any) => Number(b.user_id) - Number(a.user_id))
         .filter((u: any) => u.user_id !== this.currentUser.user_id);
-      console.log('Users loaded:', this.users);
     } catch (error) {
       console.error('Error fetching users:', error);
     }
@@ -322,7 +326,6 @@ export class ProfilePage implements OnInit {
   }
 
   async createNewTopic() {
-    console.log('Creating new topic:', this.newTopic);
     try {
       const response = await fetch(`${this.baseURL}/api/createTopic`, {
         method: 'POST',
@@ -399,6 +402,25 @@ export class ProfilePage implements OnInit {
     } catch (error) {
       console.error('Submit error:', error);
       alert('Error submitting fact');
+    }
+  }
+
+  // Prikaz ekspertize
+  async loadExpertisesOfUser(userId: number) {
+    try {
+      const response = await fetch(
+        `${this.baseURL}/api/getAllExpertisesOfUser/${userId}`,
+        {
+          headers: this.authService.getAuthHeaders(),
+        }
+      );
+      const data = await response.json();
+      this.expertises = (data.expertises || []).sort(
+        (a: any, b: any) => Number(b.expertise_id) - Number(a.expertise_id)
+      );
+      console.log(this.expertises);
+    } catch (error) {
+      console.error('Error fetching expertises:', error);
     }
   }
 }

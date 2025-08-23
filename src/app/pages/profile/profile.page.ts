@@ -25,6 +25,10 @@ export class ProfilePage implements OnInit {
   baseURL = 'http://localhost:8000';
   currentUser: any;
   users: any[] = [];
+  selectedUser: any = null; // user clicked from list
+  loading = true;
+
+  // Blockchain
   showForm: boolean = false;
   web3: Web3 | null = null;
   account: string | null = null;
@@ -114,7 +118,6 @@ export class ProfilePage implements OnInit {
     name: '',
     area_name: '',
   };
-  loading = true;
   loadingBlockchain = false;
   constructor(private authService: AuthService) {}
 
@@ -138,6 +141,20 @@ export class ProfilePage implements OnInit {
       console.error('Error fetching users:', error);
     }
   }
+
+  showUser(user: any) {
+    this.selectedUser = user;
+  }
+
+  showCurrentUser() {
+    this.selectedUser = null;
+  }
+
+  get displayedUser() {
+    return this.selectedUser || this.currentUser;
+  }
+
+  // Blockchain
 
   async connectMetaMask() {
     if ((window as any).ethereum) {

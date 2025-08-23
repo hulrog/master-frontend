@@ -27,6 +27,8 @@ ion-button {
   overflow-x: auto;
   gap: 16px;
   padding: 20px;
+  scrollbar-color: var(--ion-color-primary) transparent;
+  scrollbar-width: thin;
 }
 
 .user-profile-card {

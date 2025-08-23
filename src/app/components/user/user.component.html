@@ -1,12 +1,9 @@
-<div class="user-circle" (click)="toggleDetails()" appHighlight>
-  @if (!expandedUser) {
+<div class="user-circle" appHighlight>
   <div class="user-name">
     {{ user.name }}
-    <span [class]="'fi fi-' + user.country.code.toLowerCase()"> </span>
   </div>
-  } @if (expandedUser) {
-  <div class="user-details">
-    <p>{{ user.date_joined | dateFormat }}</p>
-  </div>
-  }
+  <span
+    class="user-flag"
+    [class]="'fi fi-' + user.country.code.toLowerCase()"
+  ></span>
 </div>

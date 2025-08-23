@@ -5,26 +5,26 @@
     @else {
     <ion-list class="horizontal-list">
       @for (user of users; track user.user_id) {
-      <standalone-user [user]="user"></standalone-user>
+      <standalone-user [user]="user" (click)="showUser(user)"></standalone-user>
       } @empty {
       <p>No users available.</p>
       }
     </ion-list>
     }
-    <!-- Current User Profile -->
-    @if (currentUser) {
+    <!-- Displayed User Profile -->
+    @if (displayedUser) {
     <ion-card class="user-profile-card">
       <ion-card-header>
         <div class="header-container">
           <div class="user-info">
-            <ion-card-title>{{ currentUser.name || '—' }}</ion-card-title>
+            <ion-card-title>{{ displayedUser.name || '—' }}</ion-card-title>
             <ion-card-subtitle
-              >{{ currentUser.email || '—' }}</ion-card-subtitle
+              >{{ displayedUser.email || '—' }}</ion-card-subtitle
             >
           </div>
           <div class="user-flag">
             <span
-              [class]="'fi fi-' + (currentUser.country?.code?.toLowerCase() || '')"
+              [class]="'fi fi-' + (displayedUser.country?.code?.toLowerCase() || '')"
               style="font-size: 3rem"
             ></span>
           </div>
@@ -34,24 +34,33 @@
       <ion-card-content>
         <div class="info-grid">
           <div>
-            <strong>Country:</strong> {{ currentUser.country?.name || '—' }}
+            <strong>Country:</strong> {{ displayedUser.country?.name || '—' }}
           </div>
-          <div><strong>Gender:</strong> {{ currentUser.gender || '—' }}</div>
+          <div><strong>Gender:</strong> {{ displayedUser.gender || '—' }}</div>
 
-          <div><strong>User ID:</strong> {{ currentUser.user_id }}</div>
+          <div><strong>User ID:</strong> {{ displayedUser.user_id }}</div>
         </div>
         <div class="info-grid">
           <div>
-            <strong>Date of Birth:</strong> {{ currentUser.date_of_birth || '—'
-            | dateFormat}}
+            <strong>Date of Birth:</strong> {{ displayedUser.date_of_birth ||
+            '—' | dateFormat}}
           </div>
         </div>
         <div class="info-grid">
           <div>
-            <strong>Joined:</strong> {{ currentUser.date_joined || '—' |
+            <strong>Joined:</strong> {{ displayedUser.date_joined || '—' |
             dateFormat}}
           </div>
         </div>
+        @if (selectedUser) {
+        <ion-button
+          color="medium"
+          (click)="showCurrentUser()"
+          style="margin-top: 16px"
+        >
+          Back to My Profile
+        </ion-button>
+        }
       </ion-card-content>
     </ion-card>
     } @if (!showForm) {

@@ -39,7 +39,7 @@ export class AppComponent {
   public appPages = [
     { title: 'Home', url: '/', icon: 'home' },
     { title: 'Profile', url: '/profile', icon: 'person' },
-    { title: 'Narratives', url: '/narratives', icon: 'book' },
+    { title: 'Test', url: '/test', icon: 'mail' },
   ];
 
   constructor(private authService: AuthService, private router: Router) {

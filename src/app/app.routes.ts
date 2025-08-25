@@ -10,11 +10,9 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'narratives',
+    path: 'test',
     loadComponent: () =>
-      import('./pages/narratives/narratives.page').then(
-        (m) => m.NarrativesPage
-      ),
+      import('./pages/test/test.page').then((m) => m.TestPage),
     canActivate: [AuthGuard],
   },
   {

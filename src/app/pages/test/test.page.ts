@@ -6,13 +6,13 @@ import { BlurTextDirective } from '../../directives/blur.directive';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: 'app-narratives',
-  templateUrl: './narratives.page.html',
-  styleUrls: ['./narratives.page.scss'],
+  selector: 'app-test',
+  templateUrl: './test.page.html',
+  styleUrls: ['./test.page.scss'],
   standalone: true,
   imports: [IonicModule, FormsModule, FactComponent, BlurTextDirective],
 })
-export class NarrativesPage implements OnInit {
+export class TestPage implements OnInit {
   facts: any[] = [];
   checkedFacts: Set<number> = new Set();
   aiSummary: string | null = null;

@@ -18,6 +18,7 @@ export class FactComponent {
   @Input() fact: any;
 
   baseURL = 'http://localhost:8000';
+  flipped = false; // toggle front/back
 
   constructor(private authService: AuthService) {
     addIcons({
@@ -50,8 +51,6 @@ export class FactComponent {
       const trueCountry = data.top_countries.true;
       const falseCountry = data.top_countries.false;
 
-      console.log(data);
-
       if (
         this.fact.user_rating === null ||
         this.fact.user_rating === undefined
@@ -78,6 +77,36 @@ export class FactComponent {
     } catch (error) {
       console.error('Vote error:', error);
       alert('Error submitting vote');
+    }
+  }
+
+  toggleFlip() {
+    this.flipped = !this.flipped;
+    if (this.flipped) {
+      this.getFactDetails(this.fact.fact_id);
+    }
+  }
+
+  async getFactDetails(factId: number) {
+    try {
+      const response = await fetch(
+        `${this.baseURL}/api/getFactDetails/${factId}`,
+        {
+          headers: this.authService.getAuthHeaders(),
+        }
+      );
+      if (response.ok) {
+        const data = await response.json();
+        const detailedFact = data.fact;
+
+        this.fact.true_countries = detailedFact.true_countries || [];
+        this.fact.false_countries = detailedFact.false_countries || [];
+      } else {
+        alert('Failed to fetch fact details');
+      }
+    } catch (error) {
+      console.error('Error fetching fact details:', error);
+      alert('Error fetching fact details');
     }
   }
 }

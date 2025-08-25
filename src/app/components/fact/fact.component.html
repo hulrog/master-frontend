@@ -1,4 +1,4 @@
-<ion-card appHighlight>
+<ion-card appHighlight (click)="getFactDetails(fact.fact_id)">
   <ion-card-header>
     <ion-card-title>{{ fact.text }}</ion-card-title>
   </ion-card-header>
@@ -69,6 +69,33 @@
       <div class="fact-statistic">
         {{ fact.false_ratings }}
         <ion-icon name="thumbs-down"></ion-icon>
+      </div>
+    </div>
+    <div class="fact-details">
+      <p><strong>Submitted by:</strong> {{ fact.user_name }}</p>
+
+      <div class="fact-countries-container">
+        <div class="supporters">
+          <p><strong>Supporters:</strong></p>
+          <div *ngFor="let c of fact.true_countries">
+            <span
+              class="country-flag"
+              [class]="'fi fi-' + c.code.toLowerCase()"
+            ></span>
+            <span>{{ c.weight }}</span>
+          </div>
+        </div>
+
+        <div class="deniers">
+          <p><strong>Deniers:</strong></p>
+          <div *ngFor="let c of fact.false_countries">
+            <span
+              class="country-flag"
+              [class]="'fi fi-' + c.code.toLowerCase()"
+            ></span>
+            <span>{{ c.weight }}</span>
+          </div>
+        </div>
       </div>
     </div>
   </ion-card-content>

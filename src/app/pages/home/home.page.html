@@ -16,11 +16,13 @@
     } @empty {
     <p>No facts available.</p>
     } } @if (selectedTab === 'contribute') {
-    <form (submit)="$event.preventDefault(); submitFact()">
+    <form (submit)="$event.preventDefault(); submitFact()" class="fact-form">
+      <div class="fields"></div>
       <ion-item>
         <ion-label position="floating">Text</ion-label>
         <ion-input [(ngModel)]="newFact.text" name="text" required></ion-input>
       </ion-item>
+
       <ion-item>
         <ion-label position="floating">Source</ion-label>
         <ion-textarea
@@ -29,6 +31,7 @@
           required
         ></ion-textarea>
       </ion-item>
+
       <ion-item>
         <ion-label position="floating">Topic</ion-label>
         <ion-input
@@ -41,6 +44,7 @@
           required
         ></ion-input>
       </ion-item>
+
       @if (topics.length && !selectedTopic) {
       <ion-list>
         @for (topic of topics; track topic.topic_id) {
@@ -50,10 +54,52 @@
         }
       </ion-list>
       }
-      <ion-button expand="block" type="submit" style="margin-top: 20px"
-        >Submit Fact</ion-button
-      >
+
+      <!-- Area selection appears only if topic is selected or typed -->
+      @if (selectedTopic || topicSearch) {
+
+      <!-- Existing Topic: read-only area -->
+      @if (selectedTopic) {
+      <ion-item>
+        <ion-label position="floating">Area</ion-label>
+        <ion-input [value]="selectedTopic.area.name" readonly></ion-input>
+      </ion-item>
+      }
+
+      <!-- New Topic: choose area -->
+      @if (!selectedTopic) {
+      <ion-item>
+        <ion-label position="floating">Area</ion-label>
+        <ion-select
+          [(ngModel)]="newFact.area_id"
+          name="areaSelect"
+          placeholder="Select an area"
+        >
+          @for (area of areas; track area.area_id) {
+          <ion-select-option [value]="area.area_id"
+            >{{ area.name }}</ion-select-option
+          >
+          }
+          <ion-select-option [value]="null"
+            >Other (enter manually)</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+
+      <!-- New Area input: only if user chose "Other" -->
+      @if (newFact.area_id == null) {
+      <ion-item>
+        <ion-label position="floating">New Area Name</ion-label>
+        <ion-input
+          [(ngModel)]="newFact.new_area_name"
+          name="newAreaName"
+        ></ion-input>
+      </ion-item>
+      } } }
+
+      <ion-button expand="block" type="submit"> Submit Fact </ion-button>
     </form>
+
     }
   </ion-content>
   }

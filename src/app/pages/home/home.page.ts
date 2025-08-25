@@ -27,13 +27,16 @@ export class HomePage implements OnInit {
   // New fact form data
   storedUser = localStorage.getItem('user_data');
   userId = this.storedUser ? JSON.parse(this.storedUser).user_id : '';
-  newFact = {
+  newFact: any = {
     text: '',
     source: '',
-    user_id: this.userId,
-    topic_id: '',
+    area_id: null,
+    topic_id: null,
+    new_area_name: '',
+    new_topic_name: '',
   };
   topicSearch = '';
+  areas: any[] = [];
   topics: any[] = [];
   selectedTopic: any = null;
 
@@ -43,6 +46,7 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.loadFacts();
+    this.loadAreas();
   }
 
   async loadFacts() {
@@ -58,6 +62,22 @@ export class HomePage implements OnInit {
       console.log(this.facts);
     } catch (error) {
       console.error('Error fetching facts:', error);
+    }
+  }
+
+  async loadAreas() {
+    try {
+      const response = await fetch(`${this.baseURL}/api/getAllAreas`, {
+        headers: this.authService.getAuthHeaders(),
+      });
+      const data = await response.json();
+      this.loading = false;
+      this.areas = (data.areas || []).sort(
+        (a: any, b: any) => Number(b.area_id) - Number(a.area_id)
+      );
+      console.log(this.areas);
+    } catch (error) {
+      console.error('Error fetching areas:', error);
     }
   }
 
@@ -87,6 +107,13 @@ export class HomePage implements OnInit {
     this.selectedTopic = topic;
     this.newFact.topic_id = topic.topic_id;
     this.topicSearch = topic.name;
+
+    // Auto fill area
+    if (topic.area_name) {
+      this.newFact.area_id = topic.area.area_id;
+      this.newFact.area_name = topic.area.name;
+    }
+    console.log(topic);
     this.topics = [];
   }
 
@@ -94,25 +121,63 @@ export class HomePage implements OnInit {
     if (this.selectedTopic) {
       this.selectedTopic = null;
       this.topicSearch = '';
+      this.newFact.area_name = null;
+      this.newFact.area_id = null;
     }
   }
 
   async submitFact() {
-    if (!this.selectedTopic) {
-      alert('Please select a topic.');
+    // Validate text and source
+    if (!this.newFact.text || !this.newFact.source) {
+      alert('Please fill in text and source.');
       return;
     }
+
+    const payload: any = {
+      text: this.newFact.text,
+      source: this.newFact.source,
+      user_id: this.authService.getUser().user_id,
+    };
+
+    if (this.selectedTopic) {
+      // Existing topic selected
+      payload.topic_id = this.selectedTopic.topic_id;
+    } else if (this.topicSearch) {
+      // New topic typed
+      payload.new_topic_name = this.topicSearch;
+
+      // Area selection for new topic
+      if (this.newFact.area_id) {
+        payload.area_id = this.newFact.area_id;
+      } else if (this.newFact.new_area_name) {
+        payload.new_area_name = this.newFact.new_area_name;
+      } else {
+        alert('Please select or enter an area for the new topic.');
+        return;
+      }
+    } else {
+      alert('Please select or enter a topic.');
+      return;
+    }
+
     try {
       const response = await fetch(`${this.baseURL}/api/createFact`, {
         method: 'POST',
         headers: this.authService.getAuthHeaders(),
-        body: JSON.stringify(this.newFact),
+        body: JSON.stringify(payload),
       });
+
       if (response.ok) {
-        this.newFact.text = '';
-        this.newFact.source = '';
-        this.selectedTopic = null;
+        this.newFact = {
+          text: '',
+          source: '',
+          area_id: null,
+          topic_id: null,
+          new_area_name: '',
+          new_topic_name: '',
+        };
         this.topicSearch = '';
+        this.selectedTopic = null;
         this.selectedTab = 'list';
         await this.loadFacts();
       } else {

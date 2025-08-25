@@ -27,9 +27,8 @@ export class FactComponent {
   }
 
   async vote(factId: number, rating: boolean) {
-    if (rating == this.fact.user_rating) {
-      return;
-    }
+    if (rating == this.fact.user_rating) return;
+
     try {
       const response = await fetch(`${this.baseURL}/api/createFactVote`, {
         method: 'POST',
@@ -40,26 +39,31 @@ export class FactComponent {
           rating: rating,
         }),
       });
+
       if (!response.ok) {
         alert('Failed to vote');
         return;
       }
+
+      const data = await response.json();
+      const weight = data.fact_vote.weight;
+
       if (
         this.fact.user_rating === null ||
         this.fact.user_rating === undefined
       ) {
         if (rating) {
-          this.fact.true_ratings += 1;
+          this.fact.true_ratings += weight;
         } else {
-          this.fact.false_ratings += 1;
+          this.fact.false_ratings += weight;
         }
       } else {
         if (rating) {
-          this.fact.true_ratings += 1;
-          this.fact.false_ratings -= 1;
+          this.fact.true_ratings += weight;
+          this.fact.false_ratings -= weight;
         } else {
-          this.fact.true_ratings -= 1;
-          this.fact.false_ratings += 1;
+          this.fact.true_ratings -= weight;
+          this.fact.false_ratings += weight;
         }
       }
 

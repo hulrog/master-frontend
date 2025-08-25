@@ -32,4 +32,12 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/register/register.page').then((m) => m.RegisterPage),
   },
+  {
+    path: 'narratives',
+    loadComponent: () =>
+      import('./pages/narratives/narratives.page').then(
+        (m) => m.NarrativesPage
+      ),
+    canActivate: [AuthGuard],
+  },
 ];

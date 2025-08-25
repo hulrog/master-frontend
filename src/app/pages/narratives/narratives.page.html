@@ -1,0 +1,63 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Narratives</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Topic search input -->
+  <ion-item>
+    <ion-label>Topic</ion-label>
+    <ion-input
+      [(ngModel)]="topicSearch"
+      (ionInput)="searchTopics(($event.target.value ?? '').toString())"
+      [readonly]="selectedTopic"
+      placeholder="Search topic..."
+    ></ion-input>
+    <ion-button *ngIf="selectedTopic" fill="clear" (click)="clearTopic()"
+      >✕</ion-button
+    >
+  </ion-item>
+
+  <!-- Search results dropdown -->
+  <ion-list *ngIf="topics.length && !selectedTopic">
+    <ion-item button *ngFor="let topic of topics" (click)="selectTopic(topic)">
+      {{ topic.name }} ({{ topic.area?.name }})
+    </ion-item>
+  </ion-list>
+
+  <!-- Optional filters -->
+  <ion-item>
+    <ion-label>Countries</ion-label>
+    <ion-select
+      [(ngModel)]="selectedCountries"
+      multiple="true"
+      placeholder="Select countries"
+    >
+      <ion-select-option
+        *ngFor="let country of countries"
+        [value]="country.country_id"
+      >
+        {{ country.name }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Genders</ion-label>
+    <ion-select
+      [(ngModel)]="selectedGenders"
+      multiple="true"
+      placeholder="Select genders"
+    >
+      <ion-select-option *ngFor="let gender of genders" [value]="gender">
+        {{ gender }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-button expand="block" (click)="seeAISummary()"
+    >Generate AI Summary</ion-button
+  >
+  <p *ngIf="aiSummary">{{ aiSummary }}</p>
+</ion-content>

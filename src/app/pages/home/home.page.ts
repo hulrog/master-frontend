@@ -55,6 +55,7 @@ export class HomePage implements OnInit {
       this.facts = (data.facts || []).sort(
         (a: any, b: any) => Number(b.fact_id) - Number(a.fact_id)
       );
+      console.log(this.facts);
     } catch (error) {
       console.error('Error fetching facts:', error);
     }

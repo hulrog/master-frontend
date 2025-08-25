@@ -397,6 +397,13 @@ export class ProfilePage implements OnInit {
       alert('Please select an area.');
       return;
     }
+    const exists = this.expertises.some(
+      (exp) => exp.area_id === this.newExpertise.area_id
+    );
+    if (exists) {
+      alert('Already exists');
+      return;
+    }
     try {
       const response = await fetch(`${this.baseURL}/api/createExpertise`, {
         method: 'POST',

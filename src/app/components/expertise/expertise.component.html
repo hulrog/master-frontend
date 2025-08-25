@@ -2,5 +2,21 @@
   <div class="expertise-name">
     {{ expertise.name }}
   </div>
+  <ion-button
+    size="small"
+    color="primary"
+    (click)="rateExpertise(1)"
+    [disabled]="expertise.user_rating"
+  >
+    +
+  </ion-button>
+  <ion-button
+    size="small"
+    color="danger"
+    (click)="rateExpertise(-1)"
+    [disabled]="expertise.user_rating"
+  >
+    -
+  </ion-button>
   <div class="expertise-rating">{{ expertise.total_rating }}</div>
 </div>

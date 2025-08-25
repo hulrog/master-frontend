@@ -27,7 +27,7 @@ export class FactComponent {
   }
 
   async vote(factId: number, rating: boolean) {
-    if (rating == this.fact.rating) {
+    if (rating == this.fact.user_rating) {
       return;
     }
     try {
@@ -63,7 +63,6 @@ export class FactComponent {
         }
       }
 
-      // Update the local fact object to reflect the new vote
       this.fact.user_rating = rating ? 1 : 0;
     } catch (error) {
       console.error('Vote error:', error);

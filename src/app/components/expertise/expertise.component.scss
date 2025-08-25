@@ -5,15 +5,25 @@
   margin: 20px 0px;
   padding: 12px 16px;
   border-radius: 12px;
-  background: var(--ion-color-light);
-  box-shadow: 0 2px 10px var(--ion-color-medium);
+  border: 1px solid var(--ion-color-medium);
 }
 
 .expertise-name {
   font-weight: bold;
   color: var(--ion-color-dark);
+  flex: 3;
+  white-space: nowrap; /* prevent wrapping */
+  overflow: hidden; /* hide overflow */
+  text-overflow: ellipsis; /* optional: show … if you want */
+  position: relative;
 }
 
 .expertise-rating {
   color: var(--ion-color-primary);
+  flex: 1;
+  text-align: right;
+}
+
+ion-button {
+  flex: 1;
 }

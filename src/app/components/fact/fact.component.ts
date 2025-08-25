@@ -6,11 +6,18 @@ import { HighlightDirective } from '../../directives/highlight.directive';
 import { AuthService } from 'src/app/services/auth.service';
 import { thumbsDown, thumbsUp } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
+import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'standalone-fact',
   standalone: true,
-  imports: [CommonModule, IonicModule, DateFormatPipe, HighlightDirective],
+  imports: [
+    CommonModule,
+    IonicModule,
+    DateFormatPipe,
+    HighlightDirective,
+    LoadingSpinnerComponent,
+  ],
   templateUrl: './fact.component.html',
   styleUrls: ['./fact.component.scss'],
 })
@@ -19,6 +26,7 @@ export class FactComponent {
 
   baseURL = 'http://localhost:8000';
   flipped = false; // toggle front/back
+  loading = false;
 
   constructor(private authService: AuthService) {
     addIcons({
@@ -83,6 +91,7 @@ export class FactComponent {
   toggleFlip() {
     this.flipped = !this.flipped;
     if (this.flipped) {
+      this.loading = true;
       this.getFactDetails(this.fact.fact_id);
     }
   }
@@ -107,6 +116,8 @@ export class FactComponent {
     } catch (error) {
       console.error('Error fetching fact details:', error);
       alert('Error fetching fact details');
+    } finally {
+      this.loading = false;
     }
   }
 }

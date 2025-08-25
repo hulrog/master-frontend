@@ -1,3 +1,17 @@
+.card-header-with-button {
+  position: relative;
+
+  ion-card-title {
+    display: inline-block;
+  }
+
+  ion-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+  }
+}
+
 .vote-buttons {
   display: flex;
   gap: 12px;
@@ -37,6 +51,7 @@
 .country-flag {
   font-size: 2rem;
   border-radius: 4px;
+  margin: 4px 12px;
 }
 
 .fact-statistics-container {
@@ -69,8 +84,4 @@
 
 .denies {
   align-items: flex-end;
-}
-
-.country-flag {
-  margin-right: 4px;
 }

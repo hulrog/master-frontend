@@ -1,77 +1,94 @@
-<ion-card appHighlight (click)="getFactDetails(fact.fact_id)">
-  <ion-card-header>
-    <ion-card-title>{{ fact.text }}</ion-card-title>
-  </ion-card-header>
-  <ion-card-content>
-    <p>{{ fact.date_entered | dateFormat }}</p>
+<ion-card appHighlight>
+  <!-- FRONT -->
+  <ng-container *ngIf="!flipped">
+    <ion-card-header class="card-header-with-button">
+      <ion-card-title> {{ fact.topic_name }} </ion-card-title>
+      <ion-button fill="clear" (click)="toggleFlip()">O</ion-button>
+    </ion-card-header>
+    <ion-card-content>
+      <p>{{ fact.text }}</p>
+      <p><strong> Source: </strong> {{ fact.source }}</p>
+      <p><strong> Entered: </strong>{{ fact.date_entered | dateFormat }}</p>
 
-    <small><strong>Source:</strong> {{ fact.source }}</small>
-    <p><strong> Topic:</strong> {{ fact.topic_name }}</p>
-    <div class="vote-buttons">
-      <ion-button
-        fill="clear"
-        [color]="fact.user_rating === 1 ? 'primary' : 'medium'"
-        (click)="vote(fact.fact_id, true)"
-      >
-        <ion-icon slot="icon-only" name="thumbs-up"></ion-icon>
-      </ion-button>
-      <div class="like-bar-container">
-        <div
-          class="like-bar likes"
-          [style.width.%]="
-            fact.true_ratings + fact.false_ratings > 0
-              ? (fact.true_ratings / (fact.true_ratings + fact.false_ratings)) *
-                100
-              : 0
-          "
-        ></div>
-        <div
-          class="like-bar dislikes"
-          [style.width.%]="
-            fact.true_ratings + fact.false_ratings > 0
-              ? (fact.false_ratings /
-                  (fact.true_ratings + fact.false_ratings)) *
-                100
-              : 0
-          "
-        ></div>
-      </div>
-      <ion-button
-        fill="clear"
-        [color]="fact.user_rating === 0 ? 'danger' : 'medium'"
-        (click)="vote(fact.fact_id, false)"
-      >
-        <ion-icon slot="icon-only" name="thumbs-down"></ion-icon>
-      </ion-button>
-    </div>
-    <div class="country-flags-container">
-      <span
-        class="country-flag"
-        [class]="
-          'fi fi-' +
-          (fact.true_country ? fact.true_country.toLowerCase() : 'un')
-        "
-      ></span>
+      <div class="vote-buttons">
+        <ion-button
+          fill="clear"
+          [color]="fact.user_rating === 1 ? 'primary' : 'medium'"
+          (click)="vote(fact.fact_id, true)"
+        >
+          <ion-icon slot="icon-only" name="thumbs-up"></ion-icon>
+        </ion-button>
 
-      <span
-        class="country-flag"
-        [class]="
-          'fi fi-' +
-          (fact.false_country ? fact.false_country.toLowerCase() : 'un')
-        "
-      ></span>
-    </div>
-    <div class="fact-statistics-container">
-      <div class="fact-statistic">
-        {{ fact.true_ratings }}
-        <ion-icon name="thumbs-up"></ion-icon>
+        <div class="like-bar-container">
+          <div
+            class="like-bar likes"
+            [style.width.%]="
+              fact.true_ratings + fact.false_ratings > 0
+                ? (fact.true_ratings /
+                    (fact.true_ratings + fact.false_ratings)) *
+                  100
+                : 0
+            "
+          ></div>
+          <div
+            class="like-bar dislikes"
+            [style.width.%]="
+              fact.true_ratings + fact.false_ratings > 0
+                ? (fact.false_ratings /
+                    (fact.true_ratings + fact.false_ratings)) *
+                  100
+                : 0
+            "
+          ></div>
+        </div>
+
+        <ion-button
+          fill="clear"
+          [color]="fact.user_rating === 0 ? 'danger' : 'medium'"
+          (click)="vote(fact.fact_id, false)"
+        >
+          <ion-icon slot="icon-only" name="thumbs-down"></ion-icon>
+        </ion-button>
       </div>
-      <div class="fact-statistic">
-        {{ fact.false_ratings }}
-        <ion-icon name="thumbs-down"></ion-icon>
+
+      <div class="country-flags-container">
+        <span
+          class="country-flag"
+          [class]="
+            'fi fi-' +
+            (fact.true_country ? fact.true_country.toLowerCase() : 'un')
+          "
+        ></span>
+        <span
+          class="country-flag"
+          [class]="
+            'fi fi-' +
+            (fact.false_country ? fact.false_country.toLowerCase() : 'un')
+          "
+        ></span>
       </div>
-    </div>
-    <div class="fact-details">
+
+      <div class="fact-statistics-container">
+        <div class="fact-statistic">
+          {{ fact.true_ratings }} <ion-icon name="thumbs-up"></ion-icon>
+        </div>
+        <div class="fact-statistic">
+          {{ fact.false_ratings }} <ion-icon name="thumbs-down"></ion-icon>
+        </div>
+      </div>
+    </ion-card-content>
+  </ng-container>
+
+  <!-- BACK -->
+  <ng-container *ngIf="flipped">
+    @if (loading) {
+    <standalone-spinner message="Loading details..."></standalone-spinner>
+    } @else {
+    <ion-card-header class="card-header-with-button">
+      <ion-card-title>Fact Details</ion-card-title>
+      <ion-button (click)="toggleFlip()">Back</ion-button>
+    </ion-card-header>
+    <ion-card-content>
       <p><strong>Submitted by:</strong> {{ fact.user_name }}</p>
 
       <div class="fact-countries-container">
@@ -89,14 +106,15 @@
         <div class="deniers">
           <p><strong>Deniers:</strong></p>
           <div *ngFor="let c of fact.false_countries">
+            <span>{{ c.weight }}</span>
             <span
               class="country-flag"
               [class]="'fi fi-' + c.code.toLowerCase()"
             ></span>
-            <span>{{ c.weight }}</span>
           </div>
         </div>
       </div>
-    </div>
-  </ion-card-content>
+    </ion-card-content>
+    }
+  </ng-container>
 </ion-card>

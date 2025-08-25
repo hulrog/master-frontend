@@ -44,6 +44,23 @@
         <ion-icon slot="icon-only" name="thumbs-down"></ion-icon>
       </ion-button>
     </div>
+    <div class="country-flags-container">
+      <span
+        class="country-flag"
+        [class]="
+          'fi fi-' +
+          (fact.true_country ? fact.true_country.toLowerCase() : 'un')
+        "
+      ></span>
+
+      <span
+        class="country-flag"
+        [class]="
+          'fi fi-' +
+          (fact.false_country ? fact.false_country.toLowerCase() : 'un')
+        "
+      ></span>
+    </div>
     <div class="fact-statistics-container">
       <div class="fact-statistic">
         {{ fact.true_ratings }}

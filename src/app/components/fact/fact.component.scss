@@ -29,6 +29,16 @@
   background-color: var(--ion-color-danger);
 }
 
+.country-flags-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.country-flag {
+  font-size: 2rem;
+  border-radius: 4px;
+}
+
 .fact-statistics-container {
   display: flex;
   justify-content: center;

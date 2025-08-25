@@ -47,6 +47,10 @@ export class FactComponent {
 
       const data = await response.json();
       const weight = data.fact_vote.weight;
+      const trueCountry = data.top_countries.true;
+      const falseCountry = data.top_countries.false;
+
+      console.log(data);
 
       if (
         this.fact.user_rating === null ||
@@ -66,6 +70,9 @@ export class FactComponent {
           this.fact.false_ratings += weight;
         }
       }
+
+      this.fact.true_country = trueCountry;
+      this.fact.false_country = falseCountry;
 
       this.fact.user_rating = rating ? 1 : 0;
     } catch (error) {

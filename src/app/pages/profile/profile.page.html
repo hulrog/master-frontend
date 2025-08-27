@@ -29,7 +29,11 @@
       <ion-card-header>
         <div class="header-container">
           <div class="user-info">
-            <ion-card-title>{{ displayedUser.name || '—' }}</ion-card-title>
+            <ion-card-title
+              >{{ displayedUser.name || '—' }} @if (displayedUser.verified) {
+              <ion-icon name="book"></ion-icon>
+              }</ion-card-title
+            >
             <ion-card-subtitle
               >{{ displayedUser.email || '—' }}</ion-card-subtitle
             >
@@ -49,7 +53,6 @@
             <strong>Country:</strong> {{ displayedUser.country?.name || '—' }}
           </div>
           <div><strong>Gender:</strong> {{ displayedUser.gender || '—' }}</div>
-
           <div><strong>User ID:</strong> {{ displayedUser.user_id }}</div>
         </div>
         <div class="info-grid">
@@ -76,19 +79,18 @@
         >
           Edit User
         </ion-button>
+        <ion-button
+          color="primary"
+          expand="block"
+          (click)="verifyStatus()"
+          [disabled]="currentUser?.verified"
+        >
+          Verify Historian Status
+        </ion-button>
         }
       </ion-card-content>
     </ion-card>
-    } @if (!showForm) {
-    <ion-button
-      expand="block"
-      type="button"
-      (click)="showForm = !showForm"
-      style="margin-bottom: 16px"
-    >
-      Verify Historian Status
-    </ion-button>
-    } @if (showForm) { @if (loadingBlockchain) {
+    } @if (!showForm) { } @if (showForm) { @if (loadingBlockchain) {
     <standalone-spinner
       message="Loading blockchain data..."
     ></standalone-spinner>

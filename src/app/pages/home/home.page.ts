@@ -45,8 +45,11 @@ export class HomePage implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.loadFacts();
     this.loadAreas();
+  }
+
+  ionViewWillEnter() {
+    this.loadFacts();
   }
 
   async loadFacts() {
@@ -55,10 +58,10 @@ export class HomePage implements OnInit {
         headers: this.authService.getAuthHeaders(),
       });
       const data = await response.json();
-      this.loading = false;
       this.facts = (data.facts || []).sort(
         (a: any, b: any) => Number(b.fact_id) - Number(a.fact_id)
       );
+      this.loading = false;
       console.log(this.facts);
     } catch (error) {
       console.error('Error fetching facts:', error);
@@ -71,7 +74,6 @@ export class HomePage implements OnInit {
         headers: this.authService.getAuthHeaders(),
       });
       const data = await response.json();
-      this.loading = false;
       this.areas = (data.areas || []).sort(
         (a: any, b: any) => Number(b.area_id) - Number(a.area_id)
       );

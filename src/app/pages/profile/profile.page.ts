@@ -12,6 +12,9 @@ import { DateFormatPipe } from '../../pipes/date-format.pipe';
 import { ModalController } from '@ionic/angular';
 import { EditUserModal } from 'src/app/components/edit-user-modal/edit-user-modal.component';
 
+import { book } from 'ionicons/icons';
+import { addIcons } from 'ionicons';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -142,12 +145,18 @@ export class ProfilePage implements OnInit {
   constructor(
     private authService: AuthService,
     private modalCtrl: ModalController
-  ) {}
+  ) {
+    addIcons({
+      book,
+    });
+  }
 
   ngOnInit(): void {
-    this.currentUser = this.authService.getUser();
     this.loadUsers();
-    this.loadExpertisesOfUser(this.currentUser.user_id);
+  }
+
+  ionViewWillEnter() {
+    this.currentUser = this.authService.getUser();
   }
 
   async loadUsers() {
@@ -177,6 +186,7 @@ export class ProfilePage implements OnInit {
     }
     this.selectedUser = user;
     this.loadExpertisesOfUser(this.selectedUser.user_id);
+    console.log(this.selectedUser);
   }
 
   showCurrentUser() {
@@ -212,7 +222,32 @@ export class ProfilePage implements OnInit {
     await modal.present();
   }
 
-  // Blockchain
+  async verifyStatus() {
+    try {
+      const userId = this.currentUser.user_id;
+      const response = await fetch(`${this.baseURL}/api/verifyUser/${userId}`, {
+        method: 'PUT',
+        headers: this.authService.getAuthHeaders(),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to verify user: ${response.status}`);
+      }
+
+      const data = await response.json();
+      this.currentUser.verified = true;
+      // Update local storage varijable
+      const userData = JSON.parse(localStorage.getItem('user_data') || '{}');
+      userData.verified = true;
+      localStorage.setItem('user_data', JSON.stringify(userData));
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  // Blockchain - za sada nepovezano TODO povezati sa verifikacijom
 
   async connectMetaMask() {
     if ((window as any).ethereum) {

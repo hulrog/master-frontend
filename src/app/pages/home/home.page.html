@@ -46,18 +46,21 @@
           placeholder="Search topic..."
           required
         ></ion-input>
+
+        <!-- Clear button -->
         <ion-button
           *ngIf="selectedTopic"
           fill="clear"
           (click)="clearTopic()"
           slot="end"
           class="clear-btn"
-          >✕</ion-button
         >
+          ✕
+        </ion-button>
       </ion-item>
 
       @if (topics.length && !selectedTopic) {
-      <ion-list>
+      <ion-list class="fade-in">
         @for (topic of topics; track topic.topic_id) {
         <ion-item button (click)="selectTopic(topic)">
           {{ topic.name }}
@@ -71,7 +74,7 @@
 
       <!-- Existing Topic: read-only area -->
       @if (selectedTopic) {
-      <ion-item>
+      <ion-item class="fade-in">
         <ion-label position="floating">Area</ion-label>
         <ion-input [value]="selectedTopic.area.name" readonly></ion-input>
       </ion-item>
@@ -79,7 +82,7 @@
 
       <!-- New Topic: choose area -->
       @if (!selectedTopic) {
-      <ion-item>
+      <ion-item class="areaSelect fade-in">
         <ion-label position="floating">Area</ion-label>
         <ion-select
           [(ngModel)]="newFact.area_id"
@@ -99,7 +102,7 @@
 
       <!-- New Area input: only if user chose "Other" -->
       @if (newFact.area_id == null) {
-      <ion-item>
+      <ion-item class="fade-in">
         <ion-label position="floating">New Area Name</ion-label>
         <ion-input
           [(ngModel)]="newFact.new_area_name"

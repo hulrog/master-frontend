@@ -7,20 +7,25 @@
 <ion-content [fullscreen]="true" class="ion-padding">
   <!-- Topic search input -->
   <ion-item>
-    <ion-label>Topic</ion-label>
+    <ion-label position="floating">Topic</ion-label>
     <ion-input
       [(ngModel)]="topicSearch"
       (ionInput)="searchTopics(($event.target.value ?? '').toString())"
       [readonly]="selectedTopic"
       placeholder="Search topic..."
     ></ion-input>
-    <ion-button *ngIf="selectedTopic" fill="clear" (click)="clearTopic()"
+    <ion-button
+      *ngIf="selectedTopic"
+      fill="clear"
+      (click)="clearTopic()"
+      slot="end"
+      class="clear-btn"
       >✕</ion-button
     >
   </ion-item>
 
   <!-- Search results dropdown -->
-  <ion-list *ngIf="topics.length && !selectedTopic">
+  <ion-list *ngIf="topics.length && !selectedTopic" class="fade-in">
     <ion-item button *ngFor="let topic of topics" (click)="selectTopic(topic)">
       {{ topic.name }} ({{ topic.area?.name }})
     </ion-item>
@@ -55,9 +60,16 @@
       </ion-select-option>
     </ion-select>
   </ion-item>
-
   <ion-button expand="block" (click)="seeAISummary()"
     >Generate AI Summary</ion-button
   >
-  <p *ngIf="aiSummary">{{ aiSummary }}</p>
+
+  @if (loading) {
+  <standalone-spinner message="Building a narrative..."></standalone-spinner>
+  } @else {
+  <p *ngIf="aiSummary" class="ai-summary">{{ aiSummary }}</p>
+  <ion-button *ngIf="aiSummary" expand="block" (click)="clearNarrative()">
+    Clear Narrative
+  </ion-button>
+  }
 </ion-content>

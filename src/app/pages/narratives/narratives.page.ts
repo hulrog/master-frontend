@@ -4,13 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { AuthService } from 'src/app/services/auth.service';
+import { LoadingSpinnerComponent } from 'src/app/components/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-narratives',
   templateUrl: './narratives.page.html',
   styleUrls: ['./narratives.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
+  imports: [IonicModule, CommonModule, FormsModule, LoadingSpinnerComponent],
 })
 export class NarrativesPage implements OnInit {
   baseURL: string = 'http://localhost:8000';
@@ -25,6 +26,8 @@ export class NarrativesPage implements OnInit {
   selectedGenders: string[] = [];
   countries: { country_id: number; name: string; code: string }[] = [];
   genders: string[] = ['male', 'female', 'other']; // example
+
+  loading: boolean = false;
 
   constructor(private authService: AuthService) {}
 
@@ -120,6 +123,7 @@ export class NarrativesPage implements OnInit {
   }
 
   async seeAISummary() {
+    this.loading = true;
     await this.getFactsForAI();
     const payload = { facts: this.factsForAI };
     console.log('Payload for AI summary:', payload);
@@ -140,6 +144,17 @@ export class NarrativesPage implements OnInit {
     } catch (error) {
       console.error('Error fetching AI summary:', error);
       alert('Error fetching AI summary');
+    } finally {
+      this.loading = false;
     }
+  }
+
+  clearNarrative() {
+    this.aiSummary = '';
+    this.topicSearch = '';
+    this.selectedTopic = null;
+    this.topics = [];
+    this.selectedCountries = [];
+    this.selectedGenders = [];
   }
 }

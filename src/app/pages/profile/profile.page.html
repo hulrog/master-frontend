@@ -9,8 +9,8 @@
   </ion-header>
   <ion-content class="ion-padding">
     @if (loading) {
-    <standalone-spinner message="Loading users..."></standalone-spinner>\ }
-    @else {
+    <standalone-spinner message="Loading users..."></standalone-spinner> } @else
+    {
     <ion-list class="horizontal-list">
       @for (user of users; track user.user_id) {
       <standalone-user
@@ -238,7 +238,7 @@
         ></ion-input>
       </ion-item>
       @if (areas.length && !selectedArea) {
-      <ion-list>
+      <ion-list class="fade-in">
         @for (area of areas; track area.area_id) {
         <ion-item button (click)="selectArea(area)"> {{ area.name }} </ion-item>
         }

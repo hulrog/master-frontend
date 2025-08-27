@@ -1,0 +1,42 @@
+.clear-btn {
+  position: absolute;
+  right: 8px;
+  top: 25%;
+  z-index: 2;
+  font-size: 1rem;
+}
+
+.fade-in {
+  animation: fadeIn 0.25s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ai-summary {
+  border: 1px solid var(--ion-color-medium);
+  border-radius: 12px;
+  padding: 1rem;
+  line-height: 1.5;
+
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

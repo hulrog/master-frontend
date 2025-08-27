@@ -60,6 +60,19 @@
       </ion-select-option>
     </ion-select>
   </ion-item>
+
+  <ion-item>
+    <ion-label>Age Range</ion-label>
+    <ion-select
+      [(ngModel)]="selectedAgeRange"
+      multiple="true"
+      placeholder="Select age range"
+    >
+      <ion-select-option *ngFor="let range of ageRanges" [value]="range">
+        {{ range.label }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
   <ion-button expand="block" (click)="seeAISummary()"
     >Generate AI Summary</ion-button
   >

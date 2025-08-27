@@ -25,7 +25,14 @@ export class NarrativesPage implements OnInit {
   selectedCountries: number[] = [];
   selectedGenders: string[] = [];
   countries: { country_id: number; name: string; code: string }[] = [];
-  genders: string[] = ['male', 'female', 'other']; // example
+  genders: string[] = ['male', 'female', 'other'];
+  ageRanges = [
+    { label: '18-25', min: 18, max: 25 },
+    { label: '26-35', min: 26, max: 35 },
+    { label: '36-50', min: 36, max: 50 },
+    { label: '51+', min: 51, max: 150 },
+  ];
+  selectedAgeRange: any = null;
 
   loading: boolean = false;
 
@@ -99,6 +106,13 @@ export class NarrativesPage implements OnInit {
       payload.countries = this.selectedCountries;
     if (this.selectedGenders.length) payload.genders = this.selectedGenders;
 
+    if (this.selectedAgeRange && this.selectedAgeRange.length) {
+      payload.age_ranges = this.selectedAgeRange.map((r: any) => ({
+        min: r.min,
+        max: r.max,
+      }));
+    }
+    console.log(payload);
     try {
       const response = await fetch(
         `${this.baseURL}/api/getAllFactsThatMeetRequirements`,
@@ -145,6 +159,7 @@ export class NarrativesPage implements OnInit {
       console.error('Error fetching AI summary:', error);
       alert('Error fetching AI summary');
     } finally {
+      this.factsForAI = [];
       this.loading = false;
     }
   }

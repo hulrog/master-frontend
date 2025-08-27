@@ -1,15 +1,17 @@
-<ion-card appHighlight>
+<ion-card>
   <!-- FRONT -->
-  <ng-container *ngIf="!flipped">
-    <ion-card-header class="card-header-with-button">
-      <ion-card-title> {{ fact.topic_name }} </ion-card-title>
-      <ion-button fill="clear" (click)="toggleFlip()">O</ion-button>
-    </ion-card-header>
-    <ion-card-content>
-      <p>{{ fact.text }}</p>
-      <p><strong> Source: </strong> {{ fact.source }}</p>
-      <p><strong> Entered: </strong>{{ fact.date_entered | dateFormat }}</p>
 
+  <ion-card-header class="card-header-with-button">
+    <ion-card-title> {{ fact.topic_name }} </ion-card-title>
+    <ion-button fill="clear" (click)="toggleFlip()"
+      ><ion-icon name="search"></ion-icon
+    ></ion-button>
+  </ion-card-header>
+  <ion-card-content>
+    <p>{{ fact.text }}</p>
+    <p><strong> Source: </strong> {{ fact.source }}</p>
+    <p><strong> Entered: </strong>{{ fact.date_entered | dateFormat }}</p>
+    <ng-container *ngIf="!flipped">
       <div class="vote-buttons">
         <ion-button
           fill="clear"
@@ -76,45 +78,40 @@
           {{ fact.false_ratings }} <ion-icon name="thumbs-down"></ion-icon>
         </div>
       </div>
-    </ion-card-content>
-  </ng-container>
-
-  <!-- BACK -->
-  <ng-container *ngIf="flipped">
+    </ng-container>
     @if (loading) {
     <standalone-spinner message="Loading details..."></standalone-spinner>
     } @else {
-    <ion-card-header class="card-header-with-button">
-      <ion-card-title>Fact Details</ion-card-title>
-      <ion-button (click)="toggleFlip()">Back</ion-button>
-    </ion-card-header>
-    <ion-card-content>
-      <p><strong>Submitted by:</strong> {{ fact.user_name }}</p>
+    <!-- BACK -->
+    <ng-container *ngIf="flipped">
+      <ion-card-content>
+        <p><strong>Submitted by:</strong> {{ fact.user_name }}</p>
 
-      <div class="fact-countries-container">
-        <div class="supporters">
-          <p><strong>Supporters:</strong></p>
-          <div *ngFor="let c of fact.true_countries">
-            <span
-              class="country-flag"
-              [class]="'fi fi-' + c.code.toLowerCase()"
-            ></span>
-            <span>{{ c.weight }}</span>
+        <div class="fact-countries-container">
+          <div class="supporters">
+            <p><strong>Supporters:</strong></p>
+            <div *ngFor="let c of fact.true_countries">
+              <span
+                class="country-flag"
+                [class]="'fi fi-' + c.code.toLowerCase()"
+              ></span>
+              <span>{{ c.weight }}</span>
+            </div>
+          </div>
+
+          <div class="deniers">
+            <p><strong>Deniers:</strong></p>
+            <div *ngFor="let c of fact.false_countries">
+              <span>{{ c.weight }}</span>
+              <span
+                class="country-flag"
+                [class]="'fi fi-' + c.code.toLowerCase()"
+              ></span>
+            </div>
           </div>
         </div>
-
-        <div class="deniers">
-          <p><strong>Deniers:</strong></p>
-          <div *ngFor="let c of fact.false_countries">
-            <span>{{ c.weight }}</span>
-            <span
-              class="country-flag"
-              [class]="'fi fi-' + c.code.toLowerCase()"
-            ></span>
-          </div>
-        </div>
-      </div>
-    </ion-card-content>
+      </ion-card-content>
+    </ng-container>
     }
-  </ng-container>
+  </ion-card-content>
 </ion-card>

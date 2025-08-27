@@ -33,6 +33,7 @@
         [value]="userData.gender"
         (ionChange)="userData.gender = $event.detail.value"
         required
+        slot="end"
       >
         @for (gender of genders; track gender.value) {
         <ion-select-option [value]="gender.value">
@@ -48,6 +49,7 @@
         [value]="userData.country_id"
         (ionChange)="userData.country_id = $event.detail.value"
         required
+        slot="end"
       >
         @for (country of countries; track country.country_id) {
         <ion-select-option [value]="country.country_id">
@@ -64,6 +66,7 @@
         [value]="userData.date_of_birth"
         (ionInput)="userData.date_of_birth = $event.detail.value ?? ''"
         required
+        slot="end"
       ></ion-input>
     </ion-item>
 

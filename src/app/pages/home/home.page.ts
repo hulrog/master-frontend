@@ -103,6 +103,13 @@ export class HomePage implements OnInit {
     }
   }
 
+  clearTopic() {
+    this.selectedTopic = null;
+    this.topicSearch = '';
+    this.newFact.area_name = null;
+    this.newFact.area_id = null;
+  }
+
   selectTopic(topic: any) {
     this.selectedTopic = topic;
     this.newFact.topic_id = topic.topic_id;
@@ -113,7 +120,7 @@ export class HomePage implements OnInit {
       this.newFact.area_id = topic.area.area_id;
       this.newFact.area_name = topic.area.name;
     }
-    console.log(topic);
+    console.log(this.selectedTopic);
     this.topics = [];
   }
 

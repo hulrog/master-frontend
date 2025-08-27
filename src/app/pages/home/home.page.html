@@ -20,7 +20,11 @@
       <div class="fields"></div>
       <ion-item>
         <ion-label position="floating">Text</ion-label>
-        <ion-input [(ngModel)]="newFact.text" name="text" required></ion-input>
+        <ion-textarea
+          [(ngModel)]="newFact.text"
+          name="text"
+          required
+        ></ion-textarea>
       </ion-item>
 
       <ion-item>
@@ -35,14 +39,21 @@
       <ion-item>
         <ion-label position="floating">Topic</ion-label>
         <ion-input
-          (click)="handleTopicInputClick()"
           [(ngModel)]="topicSearch"
-          [readonly]="selectedTopic"
+          [readonly]="!!selectedTopic"
           name="topicSearch"
           (ionInput)="searchTopics(($event.target.value ?? '').toString())"
           placeholder="Search topic..."
           required
         ></ion-input>
+        <ion-button
+          *ngIf="selectedTopic"
+          fill="clear"
+          (click)="clearTopic()"
+          slot="end"
+          class="clear-btn"
+          >✕</ion-button
+        >
       </ion-item>
 
       @if (topics.length && !selectedTopic) {
@@ -97,7 +108,9 @@
       </ion-item>
       } } }
 
-      <ion-button expand="block" type="submit"> Submit Fact </ion-button>
+      <ion-button expand="block" type="submit" class="submit-btn">
+        Submit Fact
+      </ion-button>
     </form>
 
     }

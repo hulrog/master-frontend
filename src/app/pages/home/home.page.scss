@@ -4,7 +4,20 @@
   flex-direction: column;
 }
 
-ion-button {
+ion-input[readonly] {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.clear-btn {
+  position: absolute;
+  right: 8px;
+  top: 25%;
+  z-index: 2;
+  font-size: 1rem;
+}
+
+.submit-btn {
   margin-top: auto;
   margin-bottom: 20px;
   margin-left: 20px;

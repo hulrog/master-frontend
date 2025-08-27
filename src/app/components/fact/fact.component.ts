@@ -2,22 +2,15 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { DateFormatPipe } from '../../pipes/date-format.pipe';
-import { HighlightDirective } from '../../directives/highlight.directive';
 import { AuthService } from 'src/app/services/auth.service';
-import { thumbsDown, thumbsUp } from 'ionicons/icons';
+import { thumbsDown, thumbsUp, search } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'standalone-fact',
   standalone: true,
-  imports: [
-    CommonModule,
-    IonicModule,
-    DateFormatPipe,
-    HighlightDirective,
-    LoadingSpinnerComponent,
-  ],
+  imports: [CommonModule, IonicModule, DateFormatPipe, LoadingSpinnerComponent],
   templateUrl: './fact.component.html',
   styleUrls: ['./fact.component.scss'],
 })
@@ -32,6 +25,7 @@ export class FactComponent {
     addIcons({
       thumbsDown,
       thumbsUp,
+      search,
     });
   }
 

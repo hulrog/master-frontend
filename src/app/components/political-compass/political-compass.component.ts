@@ -46,6 +46,10 @@ export class PoliticalCompassComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.renderChart();
+
+    window.addEventListener('resize', () => {
+      this.chart?.resize();
+    });
   }
 
   renderChart() {
@@ -112,8 +116,10 @@ export class PoliticalCompassComponent implements AfterViewInit {
       scales: {
         x: {
           type: 'linear',
+          title: { display: true, text: 'Economic Left - Economic Right' },
           min: -3,
           max: 3,
+          offset: true,
           grid: {
             drawTicks: true,
             drawOnChartArea: true,
@@ -126,8 +132,10 @@ export class PoliticalCompassComponent implements AfterViewInit {
         },
         y: {
           type: 'linear',
+          title: { display: true, text: ' Libertarian  Authoritarian' },
           min: -3,
           max: 3,
+          offset: true,
           grid: {
             drawTicks: true,
             drawOnChartArea: true,

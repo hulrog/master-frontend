@@ -22,6 +22,9 @@
       <p>No users available.</p>
       }
     </ion-list>
+    <standalone-political-compass
+      [users]="users"
+    ></standalone-political-compass>
     } @if (selectedTab === 'details') {
     <!-- Displayed User Profile -->
     @if (displayedUser) {

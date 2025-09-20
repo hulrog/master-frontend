@@ -15,6 +15,7 @@ import { EditUserModal } from 'src/app/components/edit-user-modal/edit-user-moda
 import { book } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { Router } from '@angular/router';
+import { PoliticalCompassComponent } from 'src/app/components/political-compass/political-compass';
 
 @Component({
   selector: 'app-profile',
@@ -28,6 +29,7 @@ import { Router } from '@angular/router';
     IonicModule,
     LoadingSpinnerComponent,
     DateFormatPipe,
+    PoliticalCompassComponent,
   ],
 })
 export class ProfilePage implements OnInit {

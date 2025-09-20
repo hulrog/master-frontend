@@ -90,6 +90,10 @@ export class QuizPage implements OnInit {
     authority: 0,
     social: 0,
   };
+
+  // 8 je ekstremna vrednost jer ima 4 pitanja, sa max pomerajem za 2
+  extremeValue: number = 8;
+
   currentQuestionIndex = 0;
 
   currentUser: any = null;
@@ -119,9 +123,9 @@ export class QuizPage implements OnInit {
 
     const payload = {
       user_id: this.currentUser.user_id,
-      authorityValue: this.results.authority,
-      economicValue: this.results.economic,
-      socialValue: this.results.social,
+      authorityValue: this.normalize(this.results.authority),
+      economicValue: this.normalize(this.results.economic),
+      socialValue: this.normalize(this.results.social),
     };
 
     try {
@@ -150,6 +154,11 @@ export class QuizPage implements OnInit {
       console.error('Error submitting quiz:', error);
       alert('Error submitting quiz');
     }
+  }
+
+  // Na vrednosti od -3 do 3
+  normalize(value: number): number {
+    return (value / this.extremeValue) * 3;
   }
 
   returnToProfile() {

@@ -8,7 +8,7 @@
     ></ion-button>
   </ion-card-header>
   <ion-card-content>
-    <p>{{ fact.text }}</p>
+    <p class="fact-text">{{ fact.text }}</p>
     <p><strong> Source: </strong> {{ fact.source }}</p>
     <p><strong> Entered: </strong>{{ fact.date_entered | dateFormat }}</p>
     <ng-container *ngIf="!flipped">

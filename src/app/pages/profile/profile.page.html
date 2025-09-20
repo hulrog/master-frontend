@@ -67,7 +67,22 @@
             dateFormat}}
           </div>
         </div>
-        @if (selectedUser) {
+        @if(displayedUser.ideology?.user_id) {
+        <div class="info-grid">
+          <div>
+            <strong>Authority:</strong> {{ displayedUser.ideology.authorityValue
+            || '—' }}
+          </div>
+          <div>
+            <strong>Economic:</strong> {{ displayedUser.ideology.economicValue
+            || '—' }}
+          </div>
+          <div>
+            <strong>Economic:</strong> {{ displayedUser.ideology.socialValue ||
+            '—' }}
+          </div>
+        </div>
+        } @if (selectedUser) {
         <ion-button color="medium" (click)="showCurrentUser()" expand="block">
           Back to My Profile
         </ion-button>
@@ -86,6 +101,9 @@
           [disabled]="currentUser?.verified"
         >
           Verify Historian Status
+        </ion-button>
+        <ion-button color="primary" expand="block" (click)="goToQuiz()">
+          Take quiz
         </ion-button>
         }
       </ion-card-content>

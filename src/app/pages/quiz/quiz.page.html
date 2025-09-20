@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Political Quiz</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="currentQuestionIndex < questions.length; else finished">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          Question {{ currentQuestionIndex + 1 }} / {{ questions.length }}
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p class="question">{{ questions[currentQuestionIndex].text }}</p>
+        <div class="quiz-buttons">
+          <ion-button expand="block" color="danger" (click)="answerQuestion(-2)"
+            >Strongly disagree</ion-button
+          >
+          <ion-button expand="block" color="danger" (click)="answerQuestion(-1)"
+            >Disagree</ion-button
+          >
+          <ion-button expand="block" color="medium" (click)="answerQuestion(0)"
+            >Neutral</ion-button
+          >
+          <ion-button expand="block" color="success" (click)="answerQuestion(1)"
+            >Agree</ion-button
+          >
+          <ion-button expand="block" color="success" (click)="answerQuestion(2)"
+            >Strongly agree</ion-button
+          >
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <ng-template #finished>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Quiz Finished!</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Your results:</p>
+        <ul>
+          <li>Economic: {{ results.economic }}</li>
+          <li>Authority: {{ results.authority }}</li>
+          <li>Social: {{ results.social }}</li>
+        </ul>
+        <ion-button
+          expand="block"
+          (click)="currentQuestionIndex = 0; results = { economic: 0, authority: 0, social: 0 };"
+        >
+          Retry Quiz
+        </ion-button>
+        <ion-button expand="block" (click)="returnToProfile()">
+          Return to profile
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </ng-template>
+</ion-content>

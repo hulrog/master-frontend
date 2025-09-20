@@ -14,6 +14,7 @@ import { EditUserModal } from 'src/app/components/edit-user-modal/edit-user-moda
 
 import { book } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -37,7 +38,7 @@ export class ProfilePage implements OnInit {
   selectedUser: any = null;
   loading = true;
 
-  //Eskpertize
+  // Eskpertize
   areaSearch = '';
   areas: any[] = [];
   selectedArea: any = null;
@@ -142,9 +143,12 @@ export class ProfilePage implements OnInit {
     area_name: '',
   };
   loadingBlockchain = false;
+
+  // Constructor
   constructor(
     private authService: AuthService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private router: Router
   ) {
     addIcons({
       book,
@@ -245,6 +249,11 @@ export class ProfilePage implements OnInit {
       console.error(error);
       return null;
     }
+  }
+
+  // Kviz za ideologije
+  goToQuiz() {
+    this.router.navigate(['/quiz']);
   }
 
   // Blockchain - za sada nepovezano TODO povezati sa verifikacijom

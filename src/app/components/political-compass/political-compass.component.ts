@@ -35,15 +35,8 @@ interface User {
 
 @Component({
   selector: 'standalone-political-compass',
-  template: `<canvas #chartCanvas></canvas>`,
-  styles: [
-    `
-      canvas {
-        width: 100%;
-        height: 400px;
-      }
-    `,
-  ],
+  templateUrl: './political-compass.component.html',
+  styleUrls: ['./political-compass.component.scss'],
 })
 export class PoliticalCompassComponent implements AfterViewInit {
   @Input() users: User[] = [];
@@ -80,7 +73,7 @@ export class PoliticalCompassComponent implements AfterViewInit {
         pointStyle: 'triangle',
         rotation: this.getTriangleRotation(u.ideology!.socialValue),
         backgroundColor: this.getGrayScale(u.ideology!.socialValue),
-        radius: 12,
+        radius: 8,
       }));
 
     this.chart.data.datasets = datasets;
@@ -88,18 +81,23 @@ export class PoliticalCompassComponent implements AfterViewInit {
   }
 
   getGrayScale(social: number) {
-    // -3 (crna, najkonzervativnije) i +3 (bela, najprogresivnije)
-    const val = Math.floor(((social + 3) / 6) * 255);
+    social = Number(social);
+
+    const val = Math.round(((social + 3) / 6) * 255);
+
+    console.log('social:', social, 'val:', val);
     return `rgb(${val}, ${val}, ${val})`;
   }
+
   getTriangleRotation(social: number) {
-    return social > 0 ? 0 : 180; //
+    return social > 0 ? 0 : 180; // na gore (default): prog, na dole (180 rotacija): kon
   }
 
   getChartOptions(): ChartOptions {
     return {
       responsive: true,
       plugins: {
+        legend: { display: false },
         tooltip: {
           callbacks: {
             label: (ctx) => {
@@ -116,13 +114,29 @@ export class PoliticalCompassComponent implements AfterViewInit {
           type: 'linear',
           min: -3,
           max: 3,
-          title: { display: true, text: 'Economic' },
+          grid: {
+            drawTicks: true,
+            drawOnChartArea: true,
+            color: (ctx) =>
+              ctx.tick.value === 0 ? 'black' : 'rgba(0,0,0,0.1)', // ako je origin, crna, u suprotnom, slaba siva
+          },
+          ticks: {
+            stepSize: 1,
+          },
         },
         y: {
           type: 'linear',
           min: -3,
           max: 3,
-          title: { display: true, text: 'Authority' },
+          grid: {
+            drawTicks: true,
+            drawOnChartArea: true,
+            color: (ctx) =>
+              ctx.tick.value === 0 ? 'black' : 'rgba(0,0,0,0.1)', // ako je origin, crna, u suprotnom, slaba siva
+          },
+          ticks: {
+            stepSize: 1,
+          },
         },
       },
     };

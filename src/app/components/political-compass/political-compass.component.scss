@@ -1,0 +1,32 @@
+canvas {
+  width: 100%;
+}
+.legend {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.legend-item span {
+  font-size: 14px;
+}
+.triangle-up,
+.triangle-down {
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+}
+.triangle-up {
+  border-bottom: 12px solid white;
+}
+.triangle-down {
+  border-top: 12px solid black;
+}

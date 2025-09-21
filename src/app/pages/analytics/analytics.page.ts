@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { WorldMapComponent } from 'src/app/components/world-map/world-map.component';
+import { LoadingSpinnerComponent } from 'src/app/components/loading-spinner/loading-spinner.component';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -9,7 +10,12 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './analytics.page.html',
   styleUrls: ['./analytics.page.scss'],
   standalone: true,
-  imports: [IonicModule, FormsModule, WorldMapComponent],
+  imports: [
+    IonicModule,
+    FormsModule,
+    WorldMapComponent,
+    LoadingSpinnerComponent,
+  ],
 })
 export class AnalyticsPage implements OnInit {
   countries: any[] = [];

@@ -5,5 +5,9 @@
 </ion-header>
 
 <ion-content>
+  @if (loading) {
+  <standalone-spinner message="Loading users..."></standalone-spinner> } @else {
   <standalone-world-map [countries]="countries"></standalone-world-map>
+
+  }
 </ion-content>

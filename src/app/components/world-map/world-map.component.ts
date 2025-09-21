@@ -51,11 +51,20 @@ export class WorldMapComponent implements AfterViewInit, OnChanges {
     const world = await fetch(
       'https://unpkg.com/world-atlas/countries-110m.json'
     ).then((r) => r.json());
+
     const geo = topojson.feature(world, world.objects.countries) as any;
 
     const data = geo.features.map((f: any) => {
       const match = this.countries.find((c) => c.code.toUpperCase() === f.id);
       return { feature: f, value: match ? match.population : 0 };
+    });
+
+    // Pre-calculate colors based on data values
+    const maxValue = Math.max(...data.map((d: any) => d.value));
+    const backgroundColors = data.map((d: any) => {
+      if (d.value === 0) return '#B9A37E'; // Gray for no data
+      const intensity = d.value / maxValue;
+      return `rgba(34, 139, 34, ${0.2 + intensity * 0.8})`; // Green scale
     });
 
     this.chart = new Chart(ctx, {
@@ -66,8 +75,9 @@ export class WorldMapComponent implements AfterViewInit, OnChanges {
           {
             label: 'Users by Country',
             data,
-            borderColor: 'black',
-            borderWidth: 0.5,
+            borderColor: '#B9A37E',
+            borderWidth: 1,
+            backgroundColor: backgroundColors, // Use pre-calculated colors
           },
         ],
       },
@@ -88,6 +98,14 @@ export class WorldMapComponent implements AfterViewInit, OnChanges {
             projection: 'equirectangular',
             axis: 'x',
           },
+          color: {
+            type: 'color',
+            axis: 'color',
+            display: false,
+            legend: {
+              display: false,
+            },
+          } as any,
         },
       } as ChartOptions,
     });

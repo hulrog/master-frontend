@@ -4,6 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { WorldMapComponent } from 'src/app/components/world-map/world-map.component';
 import { LoadingSpinnerComponent } from 'src/app/components/loading-spinner/loading-spinner.component';
 import { AuthService } from 'src/app/services/auth.service';
+import { PoliticalCompassComponent } from 'src/app/components/political-compass/political-compass.component';
 
 @Component({
   selector: 'app-analytics',
@@ -15,10 +16,14 @@ import { AuthService } from 'src/app/services/auth.service';
     FormsModule,
     WorldMapComponent,
     LoadingSpinnerComponent,
+    PoliticalCompassComponent,
   ],
 })
 export class AnalyticsPage implements OnInit {
+  selectedTab: 'map' | 'compass' = 'map';
   countries: any[] = [];
+  topCountries: any[] = [];
+  users: any[] = [];
   baseURL = 'http://localhost:8000';
   loading = true;
 
@@ -38,10 +43,29 @@ export class AnalyticsPage implements OnInit {
       );
       const data = await response.json();
       this.countries = data.countries;
-      console.log(this.countries);
-      this.loading = false;
+
+      // Calculate top 10 countries
+      this.topCountries = this.countries
+        .filter((country) => country.population > 0) // Only countries with users
+        .sort((a, b) => b.population - a.population) // Sort by population descending
+        .slice(0, 10); // Take top 10
+
+      console.log('All countries:', this.countries);
+      console.log('Top 10 countries:', this.topCountries);
     } catch (error) {
       console.error('Error fetching users:', error);
     }
+    try {
+      const response = await fetch(`${this.baseURL}/api/getAllUsers`, {
+        headers: this.authService.getAuthHeaders(),
+      });
+      const data = await response.json();
+      this.users = data.users;
+
+      console.log('All users:', this.users);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+    this.loading = false;
   }
 }

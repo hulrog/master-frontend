@@ -59,12 +59,11 @@ export class WorldMapComponent implements AfterViewInit, OnChanges {
       return { feature: f, value: match ? match.population : 0 };
     });
 
-    // Pre-calculate colors based on data values
     const maxValue = Math.max(...data.map((d: any) => d.value));
     const backgroundColors = data.map((d: any) => {
-      if (d.value === 0) return '#B9A37E'; // Gray for no data
+      if (d.value === 0) return '#B9A37E';
       const intensity = d.value / maxValue;
-      return `rgba(34, 139, 34, ${0.2 + intensity * 0.8})`; // Green scale
+      return `rgba(34, 139, 34, ${0.2 + intensity * 0.8})`;
     });
 
     this.chart = new Chart(ctx, {
@@ -77,7 +76,7 @@ export class WorldMapComponent implements AfterViewInit, OnChanges {
             data,
             borderColor: '#B9A37E',
             borderWidth: 1,
-            backgroundColor: backgroundColors, // Use pre-calculated colors
+            backgroundColor: backgroundColors,
           },
         ],
       },
@@ -109,5 +108,6 @@ export class WorldMapComponent implements AfterViewInit, OnChanges {
         },
       } as ChartOptions,
     });
+    this.canvas.nativeElement.classList.add('loaded');
   }
 }

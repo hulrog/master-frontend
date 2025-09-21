@@ -132,7 +132,7 @@ export class PoliticalCompassComponent implements AfterViewInit {
         },
         y: {
           type: 'linear',
-          title: { display: true, text: ' Libertarian  Authoritarian' },
+          title: { display: true, text: ' Libertarian - Authoritarian' },
           min: -3,
           max: 3,
           offset: true,

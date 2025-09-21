@@ -1,0 +1,64 @@
+.ledger-section {
+  padding: 30px 20px;
+
+  h2 {
+    margin: 0 0 20px 0;
+    text-align: center;
+  }
+
+  .ledger-table {
+    max-width: 600px;
+    margin: 0 auto;
+
+    .ledger-header {
+      display: grid;
+      grid-template-columns: 60px 1fr 80px;
+      padding: 12px 0;
+      border-bottom: 2px solid currentColor;
+      font-weight: bold;
+    }
+
+    .ledger-row {
+      display: grid;
+      grid-template-columns: 60px 1fr 80px;
+      padding: 10px 0;
+      border-bottom: 1px solid currentColor;
+      position: relative;
+
+      // Dotted guide lines between columns
+      &::before {
+        content: "";
+        position: absolute;
+        left: 60px;
+        top: 0;
+        bottom: 0;
+        border-left: 1px dotted currentColor;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        right: 80px;
+        top: 0;
+        bottom: 0;
+        border-left: 1px dotted currentColor;
+      }
+    }
+
+    .rank-col {
+      text-align: center;
+    }
+
+    .country-col {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-left: 10px;
+    }
+
+    .users-col {
+      text-align: right;
+      padding-right: 10px;
+    }
+  }
+}

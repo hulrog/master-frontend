@@ -1,13 +1,43 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Analytics</ion-title>
+    <ion-segment [(ngModel)]="selectedTab" color="primary">
+      <ion-segment-button value="map">Map</ion-segment-button>
+      <ion-segment-button value="compass">Compass</ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   @if (loading) {
-  <standalone-spinner message="Loading users..."></standalone-spinner> } @else {
+  <standalone-spinner message="Loading users..."></standalone-spinner>
+  } @else { @if (selectedTab == "map") {
   <standalone-world-map [countries]="countries"></standalone-world-map>
 
-  }
+  <!-- Top 10 Countries Ledger Table -->
+  <div class="ledger-section">
+    <h2>Top Countries by Users</h2>
+    <div class="ledger-table">
+      <div class="ledger-header">
+        <div class="rank-col">Rank</div>
+        <div class="country-col">Country</div>
+        <div class="users-col">Users</div>
+      </div>
+      @for (country of topCountries; track country.code; let i = $index) {
+      <div class="ledger-row">
+        <div class="rank-col">{{ i + 1 }}.</div>
+        <div class="country-col">
+          <span
+            class="country-flag"
+            [class]="'fi fi-' + country['alpha2-code'].toLowerCase()"
+          ></span>
+          {{ country.name }}
+        </div>
+        <div class="users-col">{{ country.population }}</div>
+      </div>
+      }
+    </div>
+  </div>
+  } @if (selectedTab == 'compass') {
+  <standalone-political-compass [users]="users"></standalone-political-compass
+  >}}
 </ion-content>

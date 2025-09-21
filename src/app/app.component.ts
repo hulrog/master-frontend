@@ -41,6 +41,7 @@ export class AppComponent {
     { title: 'Profile', url: '/profile', icon: 'person' },
     { title: 'Narratives', url: '/narratives', icon: 'book' },
     { title: 'Test', url: '/test', icon: 'mail' },
+    { title: 'Analytics', url: '/analytics', icon: 'mail' },
   ];
 
   constructor(private authService: AuthService, private router: Router) {

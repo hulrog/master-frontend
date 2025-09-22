@@ -131,16 +131,17 @@
           <ion-segment-button value="supporters">Supporters</ion-segment-button>
           <ion-segment-button value="deniers">Deniers</ion-segment-button>
         </ion-segment>
+        <div class="fact-compass-container">
+          <standalone-political-compass
+            *ngIf="compassTab === 'supporters'"
+            [users]="fact.true_users"
+          ></standalone-political-compass>
 
-        <standalone-political-compass
-          *ngIf="compassTab === 'supporters'"
-          [users]="fact.true_users"
-        ></standalone-political-compass>
-
-        <standalone-political-compass
-          *ngIf="compassTab === 'deniers'"
-          [users]="fact.false_users"
-        ></standalone-political-compass>
+          <standalone-political-compass
+            *ngIf="compassTab === 'deniers'"
+            [users]="fact.false_users"
+          ></standalone-political-compass>
+        </div>
       </ng-container>
     </ng-container>
     }

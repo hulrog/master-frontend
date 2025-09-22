@@ -1,14 +1,14 @@
 .chart-container {
   width: 100%;
   display: flex;
+  background-color: #b9a37e;
 }
 .legend {
   display: flex;
   gap: 16px;
-  margin-top: 12px;
-  align-items: center;
-  justify-content: center;
+  padding: 8px;
   width: 100%;
+  background-color: #b9a37e;
 }
 .legend-item {
   display: flex;

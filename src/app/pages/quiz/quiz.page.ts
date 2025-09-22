@@ -131,10 +131,7 @@ export class QuizPage implements OnInit {
     try {
       const response = await fetch(`${this.baseURL}/api/createIdeology`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...this.authService.getAuthHeaders(),
-        },
+        headers: this.authService.getAuthHeaders(),
         body: JSON.stringify(payload),
       });
 

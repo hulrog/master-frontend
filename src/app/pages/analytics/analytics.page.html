@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-segment [(ngModel)]="selectedTab" color="primary">
+    <ion-segment [(ngModel)]="selectedTab" color="primary" [disabled]="loading">
       <ion-segment-button value="map">Map</ion-segment-button>
       <ion-segment-button value="compass">Compass</ion-segment-button>
       <ion-segment-button value="tag-cloud">Tag Cloud</ion-segment-button>
@@ -11,7 +11,7 @@
 
 <ion-content>
   @if (loading) {
-  <standalone-spinner message="Loading users..."></standalone-spinner>
+  <standalone-spinner message="Opening the Archives..."></standalone-spinner>
   } @else { @if (selectedTab == "map") {
   <standalone-world-map [countries]="countries"></standalone-world-map>
 
@@ -42,7 +42,10 @@
   } @if (selectedTab == 'compass') {
   <standalone-political-compass [users]="users"></standalone-political-compass>}
   @if (selectedTab == 'charts') {
-  <standalone-user-activity [users]="userActivity"></standalone-user-activity>}
-  @if (selectedTab == 'tag-cloud') {
+  <standalone-user-activity
+    [users]="userActivity"
+    [facts]="facts"
+  ></standalone-user-activity
+  >} @if (selectedTab == 'tag-cloud') {
   <standalone-tag-cloud></standalone-tag-cloud>}}
 </ion-content>

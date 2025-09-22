@@ -29,6 +29,7 @@ export class AnalyticsPage implements OnInit {
   topCountries: any[] = [];
   users: any[] = [];
   userActivity: any[] = [];
+  facts: any[] = [];
   baseURL = 'http://localhost:8000';
   loading = true;
 
@@ -77,6 +78,17 @@ export class AnalyticsPage implements OnInit {
       });
       const data = await response.json();
       this.userActivity = data.users;
+
+      console.log('All users:', this.users);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+    try {
+      const response = await fetch(`${this.baseURL}/api/getInterestingFacts`, {
+        headers: this.authService.getAuthHeaders(),
+      });
+      const data = await response.json();
+      this.facts = data.facts;
 
       console.log('All users:', this.users);
     } catch (error) {

@@ -94,8 +94,7 @@ export class WorldMapComponent implements AfterViewInit, OnChanges {
           const intensity = Math.min(1, (0.4 - ratio) / 0.4);
           return `rgba(220, 53, 69, ${0.3 + intensity * 0.7})`;
         } else {
-          // Balanced/neutral - yellow/orange
-          return `rgba(255, 193, 7, 0.6)`;
+          return `rgba(206, 194, 28, 0.88)`;
         }
       });
     } else {

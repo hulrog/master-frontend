@@ -6,11 +6,18 @@ import { AuthService } from 'src/app/services/auth.service';
 import { thumbsDown, thumbsUp, search } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
+import { WorldMapComponent } from '../world-map/world-map.component';
 
 @Component({
   selector: 'standalone-fact',
   standalone: true,
-  imports: [CommonModule, IonicModule, DateFormatPipe, LoadingSpinnerComponent],
+  imports: [
+    CommonModule,
+    IonicModule,
+    DateFormatPipe,
+    LoadingSpinnerComponent,
+    WorldMapComponent,
+  ],
   templateUrl: './fact.component.html',
   styleUrls: ['./fact.component.scss'],
 })
@@ -104,6 +111,7 @@ export class FactComponent {
 
         this.fact.true_countries = detailedFact.true_countries || [];
         this.fact.false_countries = detailedFact.false_countries || [];
+        console.log(this.fact.true_countries);
       } else {
         alert('Failed to fetch fact details');
       }

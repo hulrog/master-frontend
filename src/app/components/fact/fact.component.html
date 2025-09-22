@@ -93,7 +93,7 @@
             <div *ngFor="let c of fact.true_countries">
               <span
                 class="country-flag"
-                [class]="'fi fi-' + c.code.toLowerCase()"
+                [class]="'fi fi-' + c.alpha2_code.toLowerCase()"
               ></span>
               <span>{{ c.weight }}</span>
             </div>
@@ -105,10 +105,18 @@
               <span>{{ c.weight }}</span>
               <span
                 class="country-flag"
-                [class]="'fi fi-' + c.code.toLowerCase()"
+                [class]="'fi fi-' + c.alpha2_code.toLowerCase()"
               ></span>
             </div>
           </div>
+        </div>
+        <div class="fact-world-map-container">
+          <standalone-world-map
+            [trueCountries]="fact.true_countries"
+            [falseCountries]="fact.false_countries"
+            mode="fact"
+          >
+          </standalone-world-map>
         </div>
       </ion-card-content>
     </ng-container>

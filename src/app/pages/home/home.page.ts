@@ -5,6 +5,20 @@ import { IonicModule } from '@ionic/angular';
 import { LoadingSpinnerComponent } from 'src/app/components/loading-spinner/loading-spinner.component';
 import { FactComponent } from 'src/app/components/fact/fact.component';
 import { AuthService } from 'src/app/services/auth.service';
+import { TagCloudComponent } from 'src/app/components/tag-cloud/tag-cloud.component';
+import { addIcons } from 'ionicons';
+import { chevronUpOutline, chevronDownOutline } from 'ionicons/icons';
+
+addIcons({
+  chevronUpOutline,
+  chevronDownOutline,
+});
+
+interface Tag {
+  id: number;
+  name: string;
+  weight: number;
+}
 
 @Component({
   selector: 'app-home',
@@ -17,6 +31,7 @@ import { AuthService } from 'src/app/services/auth.service';
     IonicModule,
     LoadingSpinnerComponent,
     FactComponent,
+    TagCloudComponent,
   ],
 })
 export class HomePage implements OnInit {
@@ -24,7 +39,11 @@ export class HomePage implements OnInit {
   baseURL = 'http://localhost:8000';
   facts: any[] = [];
 
-  // New fact form data
+  // Tag Cloud
+  selectedTag: Tag | null = null;
+  drawerOpen = false;
+
+  // Contribute tab
   storedUser = localStorage.getItem('user_data');
   userId = this.storedUser ? JSON.parse(this.storedUser).user_id : '';
   newFact: any = {
@@ -67,6 +86,18 @@ export class HomePage implements OnInit {
       console.error('Error fetching facts:', error);
     }
   }
+
+  // Tag Cloud kao filter
+  onTagSelected(tag: Tag | null) {
+    this.selectedTag = tag;
+  }
+
+  get filteredFacts() {
+    if (!this.selectedTag) return this.facts;
+    return this.facts.filter((f) => f.topic_id === this.selectedTag?.id);
+  }
+
+  // Contribute tab
 
   async loadAreas() {
     try {

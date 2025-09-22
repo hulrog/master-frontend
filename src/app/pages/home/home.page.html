@@ -11,7 +11,25 @@
   <standalone-spinner message="Loading facts..."></standalone-spinner>
   } @else {
   <ion-content>
-    @if (selectedTab === 'list') { @for (fact of facts; track fact.fact_id) {
+    @if (selectedTab === 'list') {
+    <div class="tag-cloud-container">
+      <div
+        class="drawer-content"
+        [class.open]="drawerOpen"
+        [class.closed]="!drawerOpen"
+      >
+        <standalone-tag-cloud
+          [baseURL]="baseURL"
+          (tagSelected)="onTagSelected($event)"
+        ></standalone-tag-cloud>
+      </div>
+      <div class="drawer-toggle" (click)="drawerOpen = !drawerOpen">
+        <ion-icon
+          [name]="drawerOpen ? 'chevron-up-outline' : 'chevron-down-outline'"
+        ></ion-icon>
+      </div>
+    </div>
+    @for (fact of filteredFacts; track fact.fact_id) {
     <standalone-fact [fact]="fact"></standalone-fact>
     } @empty {
     <p>No facts available.</p>

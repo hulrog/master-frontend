@@ -1,3 +1,29 @@
+.drawer-content {
+  background: var(--ion-background-color);
+  overflow-y: auto;
+  transition: max-height 0.3s ease;
+
+  &.open {
+    max-height: 150px;
+  }
+
+  &.closed {
+    max-height: 0;
+  }
+}
+
+.drawer-toggle {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 2rem;
+  text-align: center;
+  user-select: none;
+
+  &:hover {
+    color: var(--ion-color-primary);
+  }
+}
+
 .fact-form {
   height: 100%;
   display: flex;

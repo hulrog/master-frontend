@@ -1,11 +1,12 @@
 <div class="tag-cloud">
   <ng-container *ngFor="let tag of tags">
-    <span
+    <div
       class="tag"
+      [class.selected]="isSelected(tag)"
       [style.fontSize]="getFontSize(tag.weight)"
-      [title]="tag.weight + ' facts'"
+      (click)="selectTag(tag)"
     >
       {{ tag.name }}
-    </span>
+    </div>
   </ng-container>
 </div>

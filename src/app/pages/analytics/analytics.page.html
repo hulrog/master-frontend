@@ -3,6 +3,7 @@
     <ion-segment [(ngModel)]="selectedTab" color="primary">
       <ion-segment-button value="map">Map</ion-segment-button>
       <ion-segment-button value="compass">Compass</ion-segment-button>
+      <ion-segment-button value="tag-cloud">Tag Cloud</ion-segment-button>
     </ion-segment>
   </ion-toolbar>
 </ion-header>
@@ -38,6 +39,7 @@
     </div>
   </div>
   } @if (selectedTab == 'compass') {
-  <standalone-political-compass [users]="users"></standalone-political-compass
-  >}}
+  <standalone-political-compass [users]="users"></standalone-political-compass>}
+  @if (selectedTab == 'tag-cloud') {
+  <standalone-tag-cloud></standalone-tag-cloud>}}
 </ion-content>

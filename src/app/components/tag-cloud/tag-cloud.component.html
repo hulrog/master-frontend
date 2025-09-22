@@ -1,0 +1,11 @@
+<div class="tag-cloud">
+  <ng-container *ngFor="let tag of tags">
+    <span
+      class="tag"
+      [style.fontSize]="getFontSize(tag.weight)"
+      [title]="tag.weight + ' facts'"
+    >
+      {{ tag.name }}
+    </span>
+  </ng-container>
+</div>

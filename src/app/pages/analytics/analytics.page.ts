@@ -5,6 +5,7 @@ import { WorldMapComponent } from 'src/app/components/world-map/world-map.compon
 import { LoadingSpinnerComponent } from 'src/app/components/loading-spinner/loading-spinner.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { PoliticalCompassComponent } from 'src/app/components/political-compass/political-compass.component';
+import { TagCloudComponent } from 'src/app/components/tag-cloud/tag-cloud.component';
 
 @Component({
   selector: 'app-analytics',
@@ -17,10 +18,11 @@ import { PoliticalCompassComponent } from 'src/app/components/political-compass/
     WorldMapComponent,
     LoadingSpinnerComponent,
     PoliticalCompassComponent,
+    TagCloudComponent,
   ],
 })
 export class AnalyticsPage implements OnInit {
-  selectedTab: 'map' | 'compass' = 'map';
+  selectedTab: 'map' | 'compass' | 'tag-cloud' = 'map';
   countries: any[] = [];
   topCountries: any[] = [];
   users: any[] = [];

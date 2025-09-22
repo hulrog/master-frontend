@@ -6,6 +6,7 @@ import { LoadingSpinnerComponent } from 'src/app/components/loading-spinner/load
 import { AuthService } from 'src/app/services/auth.service';
 import { PoliticalCompassComponent } from 'src/app/components/political-compass/political-compass.component';
 import { TagCloudComponent } from 'src/app/components/tag-cloud/tag-cloud.component';
+import { UserActivityComponent } from 'src/app/components/user-activity/user-activity.component';
 
 @Component({
   selector: 'app-analytics',
@@ -19,13 +20,15 @@ import { TagCloudComponent } from 'src/app/components/tag-cloud/tag-cloud.compon
     LoadingSpinnerComponent,
     PoliticalCompassComponent,
     TagCloudComponent,
+    UserActivityComponent,
   ],
 })
 export class AnalyticsPage implements OnInit {
-  selectedTab: 'map' | 'compass' | 'tag-cloud' = 'map';
+  selectedTab: 'map' | 'compass' | 'tag-cloud' | 'charts' = 'map';
   countries: any[] = [];
   topCountries: any[] = [];
   users: any[] = [];
+  userActivity: any[] = [];
   baseURL = 'http://localhost:8000';
   loading = true;
 
@@ -63,6 +66,17 @@ export class AnalyticsPage implements OnInit {
       });
       const data = await response.json();
       this.users = data.users;
+
+      console.log('All users:', this.users);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+    try {
+      const response = await fetch(`${this.baseURL}/api/getUserActivity`, {
+        headers: this.authService.getAuthHeaders(),
+      });
+      const data = await response.json();
+      this.userActivity = data.users;
 
       console.log('All users:', this.users);
     } catch (error) {

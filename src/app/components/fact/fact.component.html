@@ -15,7 +15,7 @@
       <div class="vote-buttons">
         <ion-button
           fill="clear"
-          [color]="fact.user_rating === 1 ? 'primary' : 'medium'"
+          [color]="fact.user_rating === 1 ? 'success' : 'medium'"
           (click)="vote(fact.fact_id, true)"
         >
           <ion-icon slot="icon-only" name="thumbs-up"></ion-icon>
@@ -86,39 +86,62 @@
     <ng-container *ngIf="flipped">
       <ion-card-content>
         <p><strong>Submitted by:</strong> {{ fact.user_name }}</p>
+        <div class="fact-tabs">
+          <ion-segment [(ngModel)]="viewTab">
+            <ion-segment-button value="map">MAP</ion-segment-button>
+            <ion-segment-button value="compass">COMPASS</ion-segment-button>
+          </ion-segment>
+        </div>
+        <ng-container *ngIf="viewTab === 'map'">
+          <div class="fact-countries-container">
+            <div class="supporters">
+              <p><strong>Supporters:</strong></p>
+              <div *ngFor="let c of fact.true_countries">
+                <span
+                  class="country-flag"
+                  [class]="'fi fi-' + c.alpha2_code.toLowerCase()"
+                ></span>
+                <span>{{ c.weight }}</span>
+              </div>
+            </div>
 
-        <div class="fact-countries-container">
-          <div class="supporters">
-            <p><strong>Supporters:</strong></p>
-            <div *ngFor="let c of fact.true_countries">
-              <span
-                class="country-flag"
-                [class]="'fi fi-' + c.alpha2_code.toLowerCase()"
-              ></span>
-              <span>{{ c.weight }}</span>
+            <div class="deniers">
+              <p><strong>Deniers:</strong></p>
+              <div *ngFor="let c of fact.false_countries">
+                <span>{{ c.weight }}</span>
+                <span
+                  class="country-flag"
+                  [class]="'fi fi-' + c.alpha2_code.toLowerCase()"
+                ></span>
+              </div>
             </div>
           </div>
-
-          <div class="deniers">
-            <p><strong>Deniers:</strong></p>
-            <div *ngFor="let c of fact.false_countries">
-              <span>{{ c.weight }}</span>
-              <span
-                class="country-flag"
-                [class]="'fi fi-' + c.alpha2_code.toLowerCase()"
-              ></span>
-            </div>
+          <div class="fact-world-map-container">
+            <standalone-world-map
+              [trueCountries]="fact.true_countries"
+              [falseCountries]="fact.false_countries"
+              mode="fact"
+            >
+            </standalone-world-map>
           </div>
-        </div>
-        <div class="fact-world-map-container">
-          <standalone-world-map
-            [trueCountries]="fact.true_countries"
-            [falseCountries]="fact.false_countries"
-            mode="fact"
-          >
-          </standalone-world-map>
-        </div>
+        </ng-container>
       </ion-card-content>
+      <ng-container *ngIf="viewTab === 'compass'">
+        <ion-segment [(ngModel)]="compassTab">
+          <ion-segment-button value="supporters">Supporters</ion-segment-button>
+          <ion-segment-button value="deniers">Deniers</ion-segment-button>
+        </ion-segment>
+
+        <standalone-political-compass
+          *ngIf="compassTab === 'supporters'"
+          [users]="fact.true_users"
+        ></standalone-political-compass>
+
+        <standalone-political-compass
+          *ngIf="compassTab === 'deniers'"
+          [users]="fact.false_users"
+        ></standalone-political-compass>
+      </ng-container>
     </ng-container>
     }
   </ion-card-content>

@@ -71,15 +71,14 @@
         <div class="info-grid">
           <div>
             <strong>Authority:</strong> {{ displayedUser.ideology.authorityValue
-            || '—' }}
+            }}
           </div>
           <div>
             <strong>Economic:</strong> {{ displayedUser.ideology.economicValue
-            || '—' }}
+            }}
           </div>
           <div>
-            <strong>Economic:</strong> {{ displayedUser.ideology.socialValue ||
-            '—' }}
+            <strong>Economic:</strong> {{ displayedUser.ideology.socialValue }}
           </div>
         </div>
         } @if (selectedUser) {

@@ -7,6 +7,8 @@ import { thumbsDown, thumbsUp, search } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 import { WorldMapComponent } from '../world-map/world-map.component';
+import { PoliticalCompassComponent } from '../political-compass/political-compass.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'standalone-fact',
@@ -17,6 +19,8 @@ import { WorldMapComponent } from '../world-map/world-map.component';
     DateFormatPipe,
     LoadingSpinnerComponent,
     WorldMapComponent,
+    PoliticalCompassComponent,
+    FormsModule,
   ],
   templateUrl: './fact.component.html',
   styleUrls: ['./fact.component.scss'],
@@ -25,8 +29,12 @@ export class FactComponent {
   @Input() fact: any;
 
   baseURL = 'http://localhost:8000';
-  flipped = false; // toggle front/back
+  flipped = false; // toggle detalje
   loading = false;
+
+  // tabovi za detalje
+  compassTab: 'supporters' | 'deniers' = 'supporters';
+  viewTab: 'map' | 'compass' = 'map';
 
   constructor(private authService: AuthService) {
     addIcons({
@@ -111,7 +119,9 @@ export class FactComponent {
 
         this.fact.true_countries = detailedFact.true_countries || [];
         this.fact.false_countries = detailedFact.false_countries || [];
-        console.log(this.fact.true_countries);
+        this.fact.true_users = detailedFact.true_users || [];
+        this.fact.false_users = detailedFact.false_users || [];
+        console.log(this.fact);
       } else {
         alert('Failed to fetch fact details');
       }

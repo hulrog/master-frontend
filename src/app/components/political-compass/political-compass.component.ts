@@ -76,7 +76,7 @@ export class PoliticalCompassComponent implements AfterViewInit {
         ] as ScatterDataPoint[],
         pointStyle: 'triangle',
         rotation: this.getTriangleRotation(u.ideology!.socialValue),
-        backgroundColor: this.getGrayScale(u.ideology!.socialValue),
+        backgroundColor: 'black',
         radius: 8,
       }));
 
@@ -84,6 +84,7 @@ export class PoliticalCompassComponent implements AfterViewInit {
     this.chart.update();
   }
 
+  // Ne koristi se trenutno
   getGrayScale(social: number) {
     social = Number(social);
 

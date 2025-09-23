@@ -2,9 +2,11 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center; // vertically center items in each line
-  gap: 12px 16px; // consistent spacing
+  align-items: center;
+  gap: 12px 16px;
   padding: 20px;
+  height: 100%;
+  align-content: center;
   max-width: 800px;
   margin: 0 auto;
 }

@@ -1,14 +1,12 @@
 .chart-container {
   width: 100%;
   display: flex;
-  background-color: #b9a37e;
 }
 .legend {
   display: flex;
   gap: 16px;
   padding: 8px;
   width: 100%;
-  background-color: #b9a37e;
 }
 .legend-item {
   display: flex;
@@ -26,7 +24,7 @@
   border-right: 8px solid transparent;
 }
 .triangle-up {
-  border-bottom: 12px solid white;
+  border-bottom: 12px solid black;
 }
 .triangle-down {
   border-top: 12px solid black;

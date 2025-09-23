@@ -66,23 +66,33 @@ export class UserActivityComponent implements AfterViewInit {
   @ViewChild('factsPerDayCanvas')
   factsPerDayRef!: ElementRef<HTMLCanvasElement>;
   @ViewChild('topUsersCanvas') topUsersRef!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('factRatingsCanvas')
+  factRatingsRef!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('verificationStatusCanvas')
+  verificationStatusRef!: ElementRef<HTMLCanvasElement>;
 
   submittedSupportedChart!: Chart;
   submittedDeniedChart!: Chart;
   factsPerDayChart!: Chart;
   topUsersChart!: Chart;
+  factRatingsChart!: Chart;
+  verificationStatusChart!: Chart;
 
   ngAfterViewInit() {
     this.renderSubmittedSupportedChart();
     this.renderSubmittedDeniedChart();
     this.renderFactsPerDayChart(this.facts);
     this.renderTopUsersChart(this.facts);
+    this.renderFactRatingsChart(this.facts);
+    this.renderVerificationStatusChart(this.users);
 
     window.addEventListener('resize', () => {
       this.submittedSupportedChart?.resize();
       this.submittedDeniedChart?.resize();
       this.factsPerDayChart?.resize();
       this.topUsersChart?.resize();
+      this.factRatingsChart?.resize();
+      this.verificationStatusChart?.resize();
     });
   }
 
@@ -208,5 +218,66 @@ export class UserActivityComponent implements AfterViewInit {
       },
       options: { responsive: true, plugins: { legend: { display: false } } },
     });
+  }
+
+  private renderFactRatingsChart(facts: Fact[]) {
+    const topicCounts: Record<string, { true: number; false: number }> = {};
+
+    facts.forEach((f: any) => {
+      const topic = f.topic_name || 'Unknown';
+      if (!topicCounts[topic]) topicCounts[topic] = { true: 0, false: 0 };
+      topicCounts[topic].true += f.true_ratings || 0;
+      topicCounts[topic].false += f.false_ratings || 0;
+    });
+
+    const labels = Object.keys(topicCounts);
+    const trueCounts = labels.map((t) => topicCounts[t].true);
+    const falseCounts = labels.map((t) => topicCounts[t].false);
+
+    this.factRatingsChart = new Chart(this.factRatingsRef.nativeElement, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [
+          { label: 'True Ratings', data: trueCounts, backgroundColor: 'green' },
+          { label: 'False Ratings', data: falseCounts, backgroundColor: 'red' },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: 'top' } },
+        scales: {
+          x: { stacked: true },
+          y: { stacked: true, beginAtZero: true },
+        },
+      },
+    });
+  }
+
+  private renderVerificationStatusChart(users: any[]) {
+    const verified = users.filter((u) => u.verified == 1).length;
+    const unverified = users.length - verified;
+
+    this.verificationStatusChart = new Chart(
+      this.verificationStatusRef.nativeElement,
+      {
+        type: 'pie',
+        data: {
+          labels: ['Verified', 'Unverified'],
+          datasets: [
+            {
+              data: [verified, unverified],
+              backgroundColor: ['green', 'gray'],
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'top' },
+          },
+        },
+      }
+    );
   }
 }

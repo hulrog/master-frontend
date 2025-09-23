@@ -35,6 +35,7 @@ export class AnalyticsPage implements OnInit {
 
   constructor(private authService: AuthService) {}
 
+  // TODO ovo vraca sve sto je na stranici, podeliti
   ngOnInit() {
     this.loadUsers();
   }
@@ -50,14 +51,10 @@ export class AnalyticsPage implements OnInit {
       const data = await response.json();
       this.countries = data.countries;
 
-      // Calculate top 10 countries
       this.topCountries = this.countries
-        .filter((country) => country.population > 0) // Only countries with users
-        .sort((a, b) => b.population - a.population) // Sort by population descending
-        .slice(0, 10); // Take top 10
-
-      console.log('All countries:', this.countries);
-      console.log('Top 10 countries:', this.topCountries);
+        .filter((country) => country.population > 0)
+        .sort((a, b) => b.population - a.population)
+        .slice(0, 10);
     } catch (error) {
       console.error('Error fetching users:', error);
     }
@@ -67,8 +64,6 @@ export class AnalyticsPage implements OnInit {
       });
       const data = await response.json();
       this.users = data.users;
-
-      console.log('All users:', this.users);
     } catch (error) {
       console.error('Error fetching users:', error);
     }
@@ -78,10 +73,8 @@ export class AnalyticsPage implements OnInit {
       });
       const data = await response.json();
       this.userActivity = data.users;
-
-      console.log('All users:', this.users);
     } catch (error) {
-      console.error('Error fetching users:', error);
+      console.error('Error fetching user activity:', error);
     }
     try {
       const response = await fetch(`${this.baseURL}/api/getInterestingFacts`, {
@@ -89,10 +82,8 @@ export class AnalyticsPage implements OnInit {
       });
       const data = await response.json();
       this.facts = data.facts;
-
-      console.log('All users:', this.users);
     } catch (error) {
-      console.error('Error fetching users:', error);
+      console.error('Error fetching facts:', error);
     }
     this.loading = false;
   }

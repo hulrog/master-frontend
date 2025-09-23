@@ -3,25 +3,24 @@
 
 :root {
   // Fonts
-  --ion-font-family: 'Merriweather', serif;
-  --ion-font-family-heading: 'Merriweather', serif;
-
+  --ion-font-family: "Merriweather", serif;
+  --ion-font-family-heading: "Merriweather", serif;
 
   // Primary (Soft Forest Green)
-  --ion-color-primary: #4A7C59;
+  --ion-color-primary: #4a7c59;
   --ion-color-primary-rgb: 74, 124, 89;
   --ion-color-primary-contrast: #fff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #3F6C4C;
-  --ion-color-primary-tint: #5B9270;
+  --ion-color-primary-shade: #3f6c4c;
+  --ion-color-primary-tint: #5b9270;
 
   // Secondary (Warm Rust / Terracotta)
-  --ion-color-secondary: #A35D40;
+  --ion-color-secondary: #a35d40;
   --ion-color-secondary-rgb: 163, 93, 64;
   --ion-color-secondary-contrast: #fff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
-  --ion-color-secondary-shade: #904E36;
-  --ion-color-secondary-tint: #B06F55;
+  --ion-color-secondary-shade: #904e36;
+  --ion-color-secondary-tint: #b06f55;
 
   --ion-background-color: rgb(237, 236, 227);
   --ion-background-color-rgb: 237, 236, 227;
@@ -29,11 +28,14 @@
   --ion-background-color-100: rgb(226, 224, 208);
   --ion-background-color-100-rgb: 226, 224, 208;
 
-  --ion-color-success: #1ccaa4;
-  --ion-color-success-rgb: 28, 202, 164;
-  --ion-color-success-100: 
-  --ion-color-warning: #ffc409;
-  --ion-color-danger: #eb445a;
+  --ion-color-success: #2e7d32;
+  --ion-color-success-rgb: 46, 125, 50;
+
+  --ion-color-warning: #ffb300;
+  --ion-color-warning-rgb: 255, 179, 0;
+
+  --ion-color-danger: #c62828;
+  --ion-color-danger-rgb: 198, 40, 40;
   --ion-color-light: #f4f5f8;
   --ion-color-medium: #92949c;
   --ion-color-dark: #222428;

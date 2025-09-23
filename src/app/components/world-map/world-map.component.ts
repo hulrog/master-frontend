@@ -37,6 +37,15 @@ export class WorldMapComponent implements AfterViewInit, OnChanges {
 
   private chart!: Chart;
 
+  rootStyles = getComputedStyle(document.documentElement);
+  successRgb = this.rootStyles
+    .getPropertyValue('--ion-color-success-rgb')
+    .trim();
+  dangerRgb = this.rootStyles.getPropertyValue('--ion-color-danger-rgb').trim();
+  warningRgb = this.rootStyles
+    .getPropertyValue('--ion-color-warning-rgb')
+    .trim();
+
   async ngAfterViewInit() {
     await this.renderChart();
   }
@@ -89,12 +98,12 @@ export class WorldMapComponent implements AfterViewInit, OnChanges {
 
         if (ratio > 0.6) {
           const intensity = Math.min(1, (ratio - 0.6) / 0.4);
-          return `rgba(34, 139, 34, ${0.3 + intensity * 0.7})`;
+          return `rgba(${this.successRgb}, ${0.3 + intensity * 0.7})`;
         } else if (ratio < 0.4) {
           const intensity = Math.min(1, (0.4 - ratio) / 0.4);
-          return `rgba(220, 53, 69, ${0.3 + intensity * 0.7})`;
+          return `rgba(${this.dangerRgb}, ${0.3 + intensity * 0.7})`;
         } else {
-          return `rgba(206, 194, 28, 0.88)`;
+          return `rgba(${this.warningRgb}, 0.88)`; // neutralci
         }
       });
     } else {
@@ -108,7 +117,7 @@ export class WorldMapComponent implements AfterViewInit, OnChanges {
       backgroundColors = data.map((d: any) => {
         if (d.value === 0) return '#B9A37E';
         const intensity = d.value / maxValue;
-        return `rgba(34, 139, 34, ${0.2 + intensity * 0.8})`;
+        return `rgba(${this.successRgb}, ${0.3 + intensity * 0.7})`;
       });
     }
 

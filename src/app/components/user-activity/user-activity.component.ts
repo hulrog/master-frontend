@@ -78,6 +78,10 @@ export class UserActivityComponent implements AfterViewInit {
   factRatingsChart!: Chart;
   verificationStatusChart!: Chart;
 
+  rootStyles = getComputedStyle(document.documentElement);
+  successColor = this.rootStyles.getPropertyValue('--ion-color-success').trim();
+  dangerColor = this.rootStyles.getPropertyValue('--ion-color-danger').trim();
+
   ngAfterViewInit() {
     this.renderSubmittedSupportedChart();
     this.renderSubmittedDeniedChart();
@@ -230,17 +234,34 @@ export class UserActivityComponent implements AfterViewInit {
       topicCounts[topic].false += f.false_ratings || 0;
     });
 
-    const labels = Object.keys(topicCounts);
-    const trueCounts = labels.map((t) => topicCounts[t].true);
-    const falseCounts = labels.map((t) => topicCounts[t].false);
+    const sortedTopics = Object.entries(topicCounts)
+      .map(([topic, counts]) => ({
+        topic,
+        ...counts,
+        total: counts.true + counts.false,
+      }))
+      .sort((a, b) => b.total - a.total)
+      .slice(0, 10);
+
+    const labels = sortedTopics.map((t) => t.topic);
+    const trueCounts = sortedTopics.map((t) => t.true);
+    const falseCounts = sortedTopics.map((t) => t.false);
 
     this.factRatingsChart = new Chart(this.factRatingsRef.nativeElement, {
       type: 'bar',
       data: {
         labels,
         datasets: [
-          { label: 'True Ratings', data: trueCounts, backgroundColor: 'green' },
-          { label: 'False Ratings', data: falseCounts, backgroundColor: 'red' },
+          {
+            label: 'True Ratings',
+            data: trueCounts,
+            backgroundColor: this.successColor,
+          },
+          {
+            label: 'False Ratings',
+            data: falseCounts,
+            backgroundColor: this.dangerColor,
+          },
         ],
       },
       options: {
@@ -267,7 +288,7 @@ export class UserActivityComponent implements AfterViewInit {
           datasets: [
             {
               data: [verified, unverified],
-              backgroundColor: ['green', 'gray'],
+              backgroundColor: [this.successColor, this.dangerColor],
             },
           ],
         },

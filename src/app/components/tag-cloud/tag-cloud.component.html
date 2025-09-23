@@ -3,6 +3,7 @@
     <div
       class="tag"
       [class.selected]="isSelected(tag)"
+      [style.color]="getTagColor(tag)"
       [style.fontSize]="getFontSize(tag.weight)"
       (click)="selectTag(tag)"
     >

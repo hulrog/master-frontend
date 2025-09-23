@@ -16,29 +16,20 @@
   font-weight: 600;
   letter-spacing: 0.5px;
   line-height: 1.5;
-  color: var(--ion-color-medium);
   transition: all 0.25s ease;
   position: relative;
   text-align: center;
 
-  &:hover,
   &.selected {
-    color: var(--ion-color-text);
-  }
-
-  &::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -4px;
-    width: 0%;
-    height: 2px;
-    background-color: var(--ion-color-text);
-    transition: width 0.3s ease;
-  }
-
-  &:hover::after,
-  &.selected::after {
-    width: 100%;
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 100%;
+      height: 2px;
+      background-color: var(--ion-color-text);
+      transition: width 0.3s ease;
+    }
   }
 }

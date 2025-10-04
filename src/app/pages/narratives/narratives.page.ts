@@ -16,6 +16,7 @@ import { LoadingSpinnerComponent } from 'src/app/components/loading-spinner/load
 export class NarrativesPage implements OnInit {
   baseURL: string = 'http://localhost:8000';
   aiSummary: string = '';
+  sources: string[] = [];
   factsForAI: [] = [];
 
   topicSearch = '';
@@ -33,6 +34,10 @@ export class NarrativesPage implements OnInit {
     { label: '51+', min: 51, max: 150 },
   ];
   selectedAgeRange: any = null;
+  selectedVerified: boolean | null = null;
+  economicValue: string | null = 'neutral';
+  authorityValue: string | null = 'neutral';
+  socialValue: string | null = 'neutral';
 
   loading: boolean = false;
 
@@ -112,6 +117,12 @@ export class NarrativesPage implements OnInit {
         max: r.max,
       }));
     }
+    if (this.selectedVerified !== null) {
+      payload.verified = this.selectedVerified;
+    }
+    if (this.economicValue) payload.economicValue = this.economicValue;
+    if (this.authorityValue) payload.authorityValue = this.authorityValue;
+    if (this.socialValue) payload.socialValue = this.socialValue;
     console.log(payload);
     try {
       const response = await fetch(
@@ -126,6 +137,7 @@ export class NarrativesPage implements OnInit {
       if (response.ok) {
         const data = await response.json();
         this.factsForAI = data.facts || [];
+        console.log(this.factsForAI);
       } else {
         const err = await response.json();
         console.error(err);
@@ -138,8 +150,12 @@ export class NarrativesPage implements OnInit {
 
   async seeAISummary() {
     this.loading = true;
+
     await this.getFactsForAI();
-    const payload = { facts: this.factsForAI };
+
+    const payload = {
+      facts: this.factsForAI.map((f: any) => f.text),
+    };
     console.log('Payload for AI summary:', payload);
 
     try {
@@ -152,6 +168,9 @@ export class NarrativesPage implements OnInit {
       if (response.ok) {
         const data = await response.json();
         this.aiSummary = data.response || 'No summary received.';
+        this.sources = this.factsForAI
+          .map((f: any) => f.source)
+          .filter((s) => s);
       } else {
         alert('Failed to get AI summary');
       }
@@ -159,13 +178,13 @@ export class NarrativesPage implements OnInit {
       console.error('Error fetching AI summary:', error);
       alert('Error fetching AI summary');
     } finally {
-      this.factsForAI = [];
       this.loading = false;
     }
   }
 
   clearNarrative() {
     this.aiSummary = '';
+    this.sources = [];
     this.topicSearch = '';
     this.selectedTopic = null;
     this.topics = [];

@@ -5,6 +5,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
+  @if (!aiSummary) {
   <!-- Topic search input -->
   <ion-item>
     <ion-label position="floating">Topic</ion-label>
@@ -73,14 +74,78 @@
       </ion-select-option>
     </ion-select>
   </ion-item>
+  <ion-item>
+    <ion-label>Expertise Level</ion-label>
+    <ion-select
+      [(ngModel)]="selectedVerified"
+      placeholder="Select verification"
+    >
+      <ion-select-option [value]="true">Historian</ion-select-option>
+      <ion-select-option [value]="false">Unverified</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <!-- Ideologije -->
+  <div class="ideology-filter">
+    <ion-item lines="full" class="filter-item">
+      <ion-label class="axis-label">Economic</ion-label>
+      <ion-segment [(ngModel)]="economicValue" class="axis-segment">
+        <ion-segment-button value="left">
+          <ion-label>Left</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="neutral">
+          <ion-label>No bias</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="right">
+          <ion-label>Right</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-item>
+
+    <ion-item lines="full" class="filter-item">
+      <ion-label class="axis-label">Authority</ion-label>
+      <ion-segment [(ngModel)]="authorityValue" class="axis-segment">
+        <ion-segment-button value="libertarian">
+          <ion-label>Libertarian</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="neutral">
+          <ion-label>No bias</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="authoritarian">
+          <ion-label>Authoritarian</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-item>
+
+    <ion-item lines="full" class="filter-item">
+      <ion-label class="axis-label">Social</ion-label>
+      <ion-segment [(ngModel)]="socialValue" class="axis-segment">
+        <ion-segment-button value="conservative">
+          <ion-label>Conservative</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="neutral">
+          <ion-label>No bias</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="progressive">
+          <ion-label>Progressive</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-item>
+  </div>
+
   <ion-button expand="block" (click)="seeAISummary()"
     >Generate AI Summary</ion-button
   >
-
-  @if (loading) {
+  } @if (loading) {
   <standalone-spinner message="Building a narrative..."></standalone-spinner>
   } @else {
   <p *ngIf="aiSummary" class="ai-summary">{{ aiSummary }}</p>
+  <div *ngIf="sources.length" class="sources-list">
+    <p>Sources:</p>
+    <ul>
+      <li *ngFor="let source of sources">{{ source }}</li>
+    </ul>
+  </div>
+
   <ion-button *ngIf="aiSummary" expand="block" (click)="clearNarrative()">
     Clear Narrative
   </ion-button>

@@ -166,6 +166,7 @@ export class HomePage implements OnInit {
   }
 
   async translateFact() {
+    this.loading = true;
     const payload: any = {
       fact: this.newFact.text,
     };
@@ -189,6 +190,7 @@ export class HomePage implements OnInit {
       console.error('Transalte error:', error);
       alert('Error transalting fact');
     }
+    this.loading = false;
   }
 
   resetFactForm() {

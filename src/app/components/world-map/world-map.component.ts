@@ -133,7 +133,7 @@ export class WorldMapComponent implements AfterViewInit, OnChanges {
                 : 'Users by Country',
             data,
             borderColor: '#B9A37E',
-            borderWidth: 1,
+            borderWidth: 0.5,
             backgroundColor: backgroundColors,
           },
         ],

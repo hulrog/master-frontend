@@ -63,7 +63,7 @@ export class PoliticalCompassComponent implements AfterViewInit {
       });
     }
 
-    // Izlvacenje podataka iz niza korisnika
+    // Izvlacenje podataka iz niza korisnika
     const datasets = this.users
       .filter((u) => u.ideology)
       .map((u) => ({

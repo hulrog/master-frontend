@@ -3,3 +3,16 @@ ion-input input:-webkit-autofill {
   -webkit-text-fill-color: var(--ion-text-color) !important;
   caret-color: var(--ion-text-color);
 }
+
+ion-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.login-container {
+  width: 90%;
+  max-width: 350px;
+  margin: 0 auto;
+}

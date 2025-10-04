@@ -1,119 +1,120 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Register</ion-title>
+    <ion-title class="ion-text-center">Register</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <form (submit)="$event.preventDefault(); register()">
-    <ion-item>
-      <ion-label position="floating">Name</ion-label>
-      <ion-input
-        type="text"
-        [value]="userData.name"
-        (ionInput)="userData.name = $event.detail.value ?? ''"
-        required
-      ></ion-input>
-    </ion-item>
+<ion-content class="ion-padding ion-text-center">
+  <div class="register-container">
+    <form (submit)="$event.preventDefault(); register()">
+      <ion-item>
+        <ion-label position="floating">Name</ion-label>
+        <ion-input
+          type="text"
+          [value]="userData.name"
+          (ionInput)="userData.name = $event.detail.value ?? ''"
+          required
+        ></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Email</ion-label>
-      <ion-input
-        type="email"
-        [value]="userData.email"
-        (ionInput)="userData.email = $event.detail.value ?? ''"
-        required
-        autocomplete="off"
-      ></ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input
+          type="email"
+          [value]="userData.email"
+          (ionInput)="userData.email = $event.detail.value ?? ''"
+          required
+          autocomplete="off"
+        ></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label position="fixed">Gender</ion-label>
-      <ion-select
-        [value]="userData.gender"
-        (ionChange)="userData.gender = $event.detail.value"
-        required
-        slot="end"
+      <ion-item>
+        <ion-label position="fixed">Gender</ion-label>
+        <ion-select
+          [value]="userData.gender"
+          (ionChange)="userData.gender = $event.detail.value"
+          required
+          slot="end"
+        >
+          @for (gender of genders; track gender.value) {
+          <ion-select-option [value]="gender.value">
+            {{gender.label}}
+          </ion-select-option>
+          }
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="fixed">Country</ion-label>
+        <ion-select
+          [value]="userData.country_id"
+          (ionChange)="userData.country_id = $event.detail.value"
+          required
+          slot="end"
+        >
+          @for (country of countries; track country.country_id) {
+          <ion-select-option [value]="country.country_id">
+            {{country.name}}
+          </ion-select-option>
+          }
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="fixed">Date of Birth</ion-label>
+        <ion-input
+          type="date"
+          [value]="userData.date_of_birth"
+          (ionInput)="userData.date_of_birth = $event.detail.value ?? ''"
+          required
+          slot="end"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input
+          type="password"
+          [value]="userData.password"
+          (ionInput)="userData.password = $event.detail.value ?? ''"
+          required
+          minlength="8"
+          autocomplete="new-password"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Confirm Password</ion-label>
+        <ion-input
+          type="password"
+          [value]="userData.password_confirmation"
+          (ionInput)="userData.password_confirmation = $event.detail.value ?? ''"
+          required
+          autocomplete="new-password"
+        ></ion-input>
+      </ion-item>
+
+      @if (errorMessage) {
+      <ion-text color="danger" class="ion-padding">{{ errorMessage }}</ion-text>
+      }
+
+      <ion-button
+        expand="block"
+        type="submit"
+        [disabled]="!userData.name || !userData.email || !userData.password || 
+                   !userData.password_confirmation || !userData.gender || 
+                   !userData.country_id || !userData.date_of_birth"
+        class="ion-margin-top"
       >
-        @for (gender of genders; track gender.value) {
-        <ion-select-option [value]="gender.value">
-          {{gender.label}}
-        </ion-select-option>
-        }
-      </ion-select>
-    </ion-item>
+        Register
+      </ion-button>
+    </form>
 
-    <ion-item>
-      <ion-label position="fixed">Country</ion-label>
-      <ion-select
-        [value]="userData.country_id"
-        (ionChange)="userData.country_id = $event.detail.value"
-        required
-        slot="end"
+    <div class="ion-margin-top">
+      <span>Already have an account? </span>
+      <ion-label color="primary" style="cursor: pointer" (click)="goToLogin()"
+        >Log in</ion-label
       >
-        @for (country of countries; track country.country_id) {
-        <ion-select-option [value]="country.country_id">
-          {{country.name}}
-        </ion-select-option>
-        }
-      </ion-select>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="fixed">Date of Birth</ion-label>
-      <ion-input
-        type="date"
-        [value]="userData.date_of_birth"
-        (ionInput)="userData.date_of_birth = $event.detail.value ?? ''"
-        required
-        slot="end"
-      ></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="floating">Password</ion-label>
-      <ion-input
-        type="password"
-        [value]="userData.password"
-        (ionInput)="userData.password = $event.detail.value ?? ''"
-        required
-        minlength="8"
-        autocomplete="new-password"
-      ></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="floating">Confirm Password</ion-label>
-      <ion-input
-        type="password"
-        [value]="userData.password_confirmation"
-        (ionInput)="userData.password_confirmation = $event.detail.value ?? ''"
-        required
-        autocomplete="new-password"
-      ></ion-input>
-    </ion-item>
-
-    @if (errorMessage) {
-    <ion-text color="danger" class="ion-padding">{{ errorMessage }}</ion-text>
-    }
-
-    <ion-button
-      expand="block"
-      type="submit"
-      [disabled]="!userData.name || !userData.email || !userData.password || 
-                 !userData.password_confirmation || !userData.gender || 
-                 !userData.country_id || !userData.date_of_birth"
-      class="ion-margin-top"
-    >
-      Register
-    </ion-button>
-  </form>
-
-  <!-- Bottom link section -->
-  <div class="ion-text-center ion-margin-top">
-    <span>Already have an account? </span>
-    <ion-label color="primary" style="cursor: pointer" (click)="goToLogin()"
-      >Log in</ion-label
-    >
+    </div>
   </div>
 </ion-content>

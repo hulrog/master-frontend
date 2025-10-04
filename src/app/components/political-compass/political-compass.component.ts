@@ -118,8 +118,8 @@ export class PoliticalCompassComponent implements AfterViewInit {
         x: {
           type: 'linear',
           title: { display: true, text: 'Economic Left - Economic Right' },
-          min: -3,
-          max: 3,
+          min: -10,
+          max: 10,
           offset: true,
           grid: {
             drawTicks: true,
@@ -134,8 +134,8 @@ export class PoliticalCompassComponent implements AfterViewInit {
         y: {
           type: 'linear',
           title: { display: true, text: ' Libertarian - Authoritarian' },
-          min: -3,
-          max: 3,
+          min: -10,
+          max: 10,
           offset: true,
           grid: {
             drawTicks: true,

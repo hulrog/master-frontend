@@ -34,16 +34,28 @@
     } @empty {
     <p>No facts available.</p>
     } } @if (selectedTab === 'contribute') {
-    <form (submit)="$event.preventDefault(); submitFact()" class="fact-form">
-      <div class="fields"></div>
+    <form
+      (submit)="$event.preventDefault(); factTranslated ? submitFact() : translateFact()"
+      class="fact-form"
+    >
       <ion-item>
-        <ion-label position="floating">Text</ion-label>
+        <ion-label position="floating">
+          {{ factTranslated ? 'Translated Text' : 'Text' }}</ion-label
+        >
         <ion-textarea
           [(ngModel)]="newFact.text"
           name="text"
+          [readonly]="factTranslated"
           required
         ></ion-textarea>
       </ion-item>
+
+      @if (factTranslated) {
+      <ion-item class="fade-in">
+        <ion-label position="floating">Original Text</ion-label>
+        <ion-textarea [value]="newFact.originalText" readonly></ion-textarea>
+      </ion-item>
+      }
 
       <ion-item>
         <ion-label position="floating">Source</ion-label>
@@ -51,6 +63,8 @@
           [(ngModel)]="newFact.source"
           name="source"
           required
+          placeholder="Please provide the title, author and year of the work, if available"
+          [readonly]="factTranslated"
         ></ion-textarea>
       </ion-item>
 
@@ -87,10 +101,10 @@
       </ion-list>
       }
 
-      <!-- Area selection appears only if topic is selected or typed -->
+      <!-- Area selection samo ako se tema unosi -->
       @if (selectedTopic || topicSearch) {
 
-      <!-- Existing Topic: read-only area -->
+      <!-- Postojeća tema -->
       @if (selectedTopic) {
       <ion-item class="fade-in">
         <ion-label position="floating">Area</ion-label>
@@ -98,7 +112,7 @@
       </ion-item>
       }
 
-      <!-- New Topic: choose area -->
+      <!-- Nova tema -->
       @if (!selectedTopic) {
       <ion-item class="areaSelect fade-in">
         <ion-label position="floating">Area</ion-label>
@@ -118,7 +132,7 @@
         </ion-select>
       </ion-item>
 
-      <!-- New Area input: only if user chose "Other" -->
+      <!-- Nova oblast -->
       @if (newFact.area_id == null) {
       <ion-item class="fade-in">
         <ion-label position="floating">New Area Name</ion-label>
@@ -128,10 +142,27 @@
         ></ion-input>
       </ion-item>
       } } }
-
+      <!-- Dugmad -->
+      @if (!factTranslated) {
       <ion-button expand="block" type="submit" class="submit-btn">
         Submit Fact
       </ion-button>
+      } @if (factTranslated) {
+      <div>
+        <ion-button expand="block" type="submit" class="submit-btn">
+          Confirm Fact
+        </ion-button>
+        <ion-button
+          expand="block"
+          color="danger"
+          class="submit-btn"
+          (click)="resetFactForm()"
+        >
+          Discard Fact
+        </ion-button>
+      </div>
+
+      }
     </form>
 
     }

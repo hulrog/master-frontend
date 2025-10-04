@@ -58,6 +58,7 @@ export class HomePage implements OnInit {
   areas: any[] = [];
   topics: any[] = [];
   selectedTopic: any = null;
+  factTranslated = false;
 
   loading = true;
 
@@ -97,8 +98,7 @@ export class HomePage implements OnInit {
     return this.facts.filter((f) => f.topic_id === this.selectedTag?.id);
   }
 
-  // Contribute tab
-
+  //=== Contribute tab ===
   async loadAreas() {
     try {
       const response = await fetch(`${this.baseURL}/api/getAllAreas`, {
@@ -148,7 +148,6 @@ export class HomePage implements OnInit {
     this.newFact.topic_id = topic.topic_id;
     this.topicSearch = topic.name;
 
-    // Auto fill area
     if (topic.area_name) {
       this.newFact.area_id = topic.area.area_id;
       this.newFact.area_name = topic.area.name;
@@ -166,8 +165,47 @@ export class HomePage implements OnInit {
     }
   }
 
+  async translateFact() {
+    const payload: any = {
+      fact: this.newFact.text,
+    };
+
+    try {
+      const response = await fetch(`${this.baseURL}/api/translateFact`, {
+        method: 'POST',
+        headers: this.authService.getAuthHeaders(),
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        this.newFact.originalText = this.newFact.text;
+        this.newFact.text = data.response || 'No translation received.';
+        this.factTranslated = true;
+      } else {
+        alert('Failed to submit fact');
+      }
+    } catch (error) {
+      console.error('Transalte error:', error);
+      alert('Error transalting fact');
+    }
+  }
+
+  resetFactForm() {
+    this.newFact = {
+      text: '',
+      source: '',
+      area_id: null,
+      topic_id: null,
+      new_area_name: '',
+      new_topic_name: '',
+    };
+    this.factTranslated = false;
+    this.topicSearch = '';
+    this.selectedTopic = null;
+  }
+
   async submitFact() {
-    // Validate text and source
     if (!this.newFact.text || !this.newFact.source) {
       alert('Please fill in text and source.');
       return;
@@ -175,18 +213,16 @@ export class HomePage implements OnInit {
 
     const payload: any = {
       text: this.newFact.text,
+      original_text: this.newFact.originalText,
       source: this.newFact.source,
       user_id: this.authService.getUser().user_id,
     };
 
     if (this.selectedTopic) {
-      // Existing topic selected
       payload.topic_id = this.selectedTopic.topic_id;
     } else if (this.topicSearch) {
-      // New topic typed
       payload.new_topic_name = this.topicSearch;
 
-      // Area selection for new topic
       if (this.newFact.area_id) {
         payload.area_id = this.newFact.area_id;
       } else if (this.newFact.new_area_name) {
@@ -199,6 +235,7 @@ export class HomePage implements OnInit {
       alert('Please select or enter a topic.');
       return;
     }
+    console.log(payload);
 
     try {
       const response = await fetch(`${this.baseURL}/api/createFact`, {
@@ -208,17 +245,7 @@ export class HomePage implements OnInit {
       });
 
       if (response.ok) {
-        this.newFact = {
-          text: '',
-          source: '',
-          area_id: null,
-          topic_id: null,
-          new_area_name: '',
-          new_topic_name: '',
-        };
-        this.topicSearch = '';
-        this.selectedTopic = null;
-        this.selectedTab = 'list';
+        this.resetFactForm();
         await this.loadFacts();
       } else {
         alert('Failed to submit fact');
